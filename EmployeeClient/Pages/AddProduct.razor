@@ -1,0 +1,49 @@
+﻿@page "/AddProduct"
+@using EmployeeClient.Models
+@using EmployeeClient.Data
+@inject ICloudService CloudService
+@inject NavigationManager NavigationManager
+<h3>AddProduct</h3>
+
+<EditForm Model="@newProduct" OnValidSubmit="@AddNewProduct">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container">
+        
+        <div class="row">
+
+            <div class="col">
+             
+
+                <label> Titile:</label>
+                <InputText @bind-Value="newProduct.Title" />
+
+                <label> Category</label>
+                <InputText @bind-Value="newProduct.Category" />
+
+
+                <label> Description:</label>
+                <InputText @bind-Value="newProduct.Description" />
+
+                <label> Price </label>
+                <InputNumber @bind-Value="newProduct.Price" />
+
+            </div>
+            <p class="actions">
+                <button class="btn btn-outline-dark" type="submit">Create</button>
+            </p>
+        </div>
+
+    </div>
+
+</EditForm>
+
+    @code {
+        private Product newProduct = new Product();
+
+        private async Task AddNewProduct()
+        {
+            await CloudService.AddProductAsync(newProduct);
+        }
+    }
