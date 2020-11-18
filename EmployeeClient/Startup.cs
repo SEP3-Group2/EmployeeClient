@@ -28,7 +28,6 @@ namespace EmployeeClient
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IUserService, CloudUserService>();
             services.AddSingleton<ICloudService, CloudService>();
         }
