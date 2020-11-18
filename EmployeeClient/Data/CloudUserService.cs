@@ -31,5 +31,24 @@ namespace EmployeeClient.Data
 
             await client.PostAsync($"{uri}", content);
         }
+
+        public async Task<User> ValidateUser(string email, string password)
+        {
+            string message = await client.GetStringAsync($"{uri}/{email}");
+
+            User result = JsonSerializer.Deserialize<User>(message);
+
+            if (result == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            if (!result.Password.Equals(password))
+            {
+                throw new Exception("Password is incorrect");
+            }
+
+            return result;
+        }
     }
 }

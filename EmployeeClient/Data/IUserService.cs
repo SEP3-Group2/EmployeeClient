@@ -8,7 +8,7 @@ namespace EmployeeClient.Data
 {
     public interface IUserService
     {
-        User ValidateUser(string userName, string password);
+        Task<User> ValidateUser(string userName, string password);
         Task AddUserAsync(User user);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeClient.Data
 {
-    public class InMemoryUserService:IUserService
+    public class InMemoryUserService : IUserService
     {
         private List<User> users;
 
@@ -15,41 +15,45 @@ namespace EmployeeClient.Data
             users = new[] {
                 new User {
                     Password = "123456",
-                    Role = "Manager",
+                    Position = "Manager",
                     SecurityLevel = 5,
-                    UserName = "Anett"
+                    Email = "Anett"
                 },
                 new User {
                     Password = "123456",
-                    Role = "HR",
+                    Position = "HR",
                     SecurityLevel = 4,
-                    UserName = "Christian"
+                    Email = "Christian"
                 },
                 new User {
                     Password = "123456",
-                    Role = "Warehouse operative",
+                    Position = "Warehouse operative",
                     SecurityLevel = 3,
-                    UserName = "Kianoush"
+                    Email = "Kianoush"
                 },
                 new User {
                     Password = "123456",
-                    Role = "Shelf-stacker",
+                    Position = "Shelf-stacker",
                     SecurityLevel = 2,
-                    UserName = "Kevin"
+                    Email = "Kevin"
                 },
                 new User {
                     Password = "123456",
-                    Role = "Cashier",
+                    Position = "Cashier",
                     SecurityLevel = 1,
-                    UserName = "Ole"
+                    Email = "Ole"
                 },
             }.ToList();
         }
 
-
-        public User ValidateUser(string userName, string password)
+        public Task AddUserAsync(User user)
         {
-            User first = users.FirstOrDefault(user => user.UserName.Equals(userName));
+            throw new NotImplementedException();
+        }
+
+        public async Task<User> ValidateUser(string userName, string password)
+        {
+            User first = users.FirstOrDefault(user => user.Email.Equals(userName));
             if (first == null)
             {
                 throw new Exception("User not found");

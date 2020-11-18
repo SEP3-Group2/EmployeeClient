@@ -75,7 +75,7 @@
             newUser.Password = password;
 
             UsersService.AddUserAsync(newUser);
-            //NavigationManager.NavigateTo("/Login"); Do we navigate to a login page after registration?
+            NavigationManager.NavigateTo("/Login");
         }
     }
 }

@@ -46,16 +46,16 @@ namespace EmployeeClient.Authentication
             return await Task.FromResult(new AuthenticationState(cachedClaimsPrincipal));
         }
 
-        public void ValidateLogin(string username, string password)
+        public async Task ValidateLogin(string email, string password)
         {
             Console.WriteLine("Validating log in");
-            if (string.IsNullOrEmpty(username)) throw new Exception("Enter username");
+            if (string.IsNullOrEmpty(email)) throw new Exception("Enter email");
             if (string.IsNullOrEmpty(password)) throw new Exception("Enter password");
 
             ClaimsIdentity identity = new ClaimsIdentity();
             try
             {
-                User user = userService.ValidateUser(username, password);
+                User user = await userService.ValidateUser(email, password);
                 identity = SetupClaimsForUser(user);
                 string serialisedData = JsonSerializer.Serialize(user);
                 jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
@@ -81,8 +81,8 @@ namespace EmployeeClient.Authentication
         private ClaimsIdentity SetupClaimsForUser(User user)
         {
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
-            claims.Add(new Claim("Role", user.Role));
+            claims.Add(new Claim(ClaimTypes.Name, user.Email));
+            claims.Add(new Claim("Position", user.Position));
             claims.Add(new Claim("Level", user.SecurityLevel.ToString()));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
