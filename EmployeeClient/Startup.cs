@@ -30,6 +30,7 @@ namespace EmployeeClient
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IUserService, CloudUserService>();
+            services.AddSingleton<ICloudService, CloudService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
