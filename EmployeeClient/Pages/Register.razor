@@ -1,0 +1,82 @@
+﻿@page "/register"
+
+@using EmployeeClient.Data;
+@using EmployeeClient.Models;
+@inject IUserService UsersService
+@inject NavigationManager NavigationManager
+
+<h3>Register</h3>
+
+<EditForm Model="@newUser" OnValidSubmit="@AddNewUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        Email:<br />
+        <InputText rows="1" @bind-Value="newUser.Email"></InputText>
+    </div>
+    <div class="form-group">
+        Name:<br />
+        <InputText rows="1" @bind-Value="newUser.Name"></InputText>
+    </div>
+    <div class="form-group">
+        Address:<br />
+        <InputText rows="1" @bind-Value="newUser.Address"></InputText>
+    </div>
+    <div class="form-group">
+        Phone Number:<br />
+        <InputText rows="1" @bind-Value="newUser.Contact"></InputText>
+    </div>
+    <div class="form-group">
+        <p>Security Level:<br /></p>
+        <select class="form-control selectpicker" @bind="newUser.SecurityLevel">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+    </div>
+    <div class="form-group">
+        Position:<br />
+        <InputText rows="1" @bind-Value="newUser.Position"></InputText>
+    </div>
+    <div class="form-group">
+        <p>Store ID:<br /></p>
+        <select class="form-control selectpicker" @bind="newUser.StoreID">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
+    </div>
+    <div class="form-group">
+        Password:<br />
+        <InputText type="password" rows="1" @bind-Value="password"></InputText>
+    </div>
+    <div class="form-group">
+        Confirm password:<br />
+        <InputText type="password" rows="1" @bind-Value="confirmPassword"></InputText>
+    </div>
+    <p class="actions">
+        <button class="btn btn-outline-dark" type="submit">Create</button>
+    </p>
+</EditForm>
+
+
+@code {
+    private User newUser = new User();
+
+
+    private string password;
+    private string confirmPassword;
+
+    private void AddNewUser()
+    {
+        if (password.Equals(confirmPassword))
+        {
+            newUser.Password = password;
+
+            UsersService.AddUserAsync(newUser);
+            //NavigationManager.NavigateTo("/Login"); Do we navigate to a login page after registration?
+        }
+    }
+}
+
