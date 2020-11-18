@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace EmployeeClient.Data
 {
-    public interface IUserService
+    public interface ICloudService
     {
-        User ValidateUser(string userName, string password);
-        Task AddUserAsync(User user);
+        Task AddProductAsync(Product product);
     }
 }

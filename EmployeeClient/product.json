@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "asd",
+    "category": "asd",
+    "description": "asd",
+    "price": 0
+  },
+  {
+    "id": 2,
+    "title": "sfd",
+    "category": "sdf",
+    "description": "sfd",
+    "price": 45
+  },
+  {
+    "id": 3,
+    "title": "ertg",
+    "category": "etr",
+    "description": "dfg",
+    "price": 5
+  }
+]

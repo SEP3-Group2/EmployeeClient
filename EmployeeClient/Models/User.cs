@@ -1,15 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EmployeeClient.Models
 {
     public class User
     {
-        public string UserName { get; set; }
-        public string Role { get; set; }
-        public int SecurityLevel { get; set; }
+        [JsonPropertyName("userID")]
+        public int UserID { get; set; }
+
+        [JsonPropertyName("password")]
         public string Password { get; set; }
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
+
+        [JsonPropertyName("phone")]
+        public string Contact { get; set; }
+
+        [JsonPropertyName("securityLevel")]
+        public int SecurityLevel { get; set; }
+
+        [JsonPropertyName("position")]
+        public string Position { get; set; }
+
+        [JsonPropertyName("storeID")]
+        public int StoreID { get; set; }
     }
 }

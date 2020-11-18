@@ -33,6 +33,8 @@ namespace EmployeeClient
             services.AddServerSideBlazor();
             services.AddScoped<IUserService, InMemoryUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddSingleton<IUserService, CloudUserService>();
+            services.AddSingleton<ICloudService, CloudService>();
 
             services.AddAuthorization(options =>
             {
@@ -47,6 +49,8 @@ namespace EmployeeClient
                 options.AddPolicy("SecurityLevel5", a =>
                     a.RequireAuthenticatedUser().RequireClaim("Level", "5"));
             });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
