@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EmployeeClient.Data;
+using Microsoft.AspNetCore.Components.Authorization;
+using EmployeeClient.Authentication;
+using System.Security.Claims;
 
 namespace EmployeeClient
 {
@@ -28,7 +31,22 @@ namespace EmployeeClient
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<IUserService, InMemoryUserService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SecurityLevel1", a =>
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "1", "2", "3", "4", "5"));
+                options.AddPolicy("SecurityLevel2", a =>
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "2", "3", "4", "5"));
+                options.AddPolicy("SecurityLevel3", a =>
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "3", "4", "5"));
+                options.AddPolicy("SecurityLevel4", a =>
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "4", "5"));
+                options.AddPolicy("SecurityLevel5", a =>
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "5"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
