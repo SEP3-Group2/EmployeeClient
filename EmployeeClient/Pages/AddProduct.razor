@@ -1,7 +1,7 @@
 ﻿@page "/AddProduct"
 @using EmployeeClient.Models
 @using EmployeeClient.Data
-@inject ICloudService CloudService
+@inject IProductService ProductService
 @inject NavigationManager NavigationManager
 <h3>AddProduct</h3>
 
@@ -44,6 +44,6 @@
 
         private async Task AddNewProduct()
         {
-            await CloudService.AddProductAsync(newProduct);
+            await ProductService.AddProductAsync(newProduct);
         }
     }
