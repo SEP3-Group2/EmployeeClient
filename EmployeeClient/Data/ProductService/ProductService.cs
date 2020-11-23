@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 namespace EmployeeClient.Data
 {
     
-    public class CloudService : ICloudService
+    public class ProductService : IProductService
     {
         private string uri = "http://localhost:8080";
         private readonly HttpClient client;
 
-        public CloudService()
+        public ProductService()
         {
             client = new HttpClient();
         }

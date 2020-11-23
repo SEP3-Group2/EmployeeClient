@@ -34,7 +34,7 @@ namespace EmployeeClient
             services.AddScoped<IUserService, InMemoryUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<IUserService, CloudUserService>();
-            services.AddSingleton<ICloudService, CloudService>();
+            services.AddSingleton<IProductService, ProductService>();
 
             services.AddAuthorization(options =>
             {

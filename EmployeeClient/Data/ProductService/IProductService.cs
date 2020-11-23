@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeClient.Data
 {
-    public interface ICloudService
+    public interface IProductService
     {
         Task AddProductAsync(Product product);
     }
