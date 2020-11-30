@@ -9,7 +9,9 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <Login/>
+        <a class="btn btn-outline-dark" href="login">
+            Log in/Log out
+        </a>
     </div>
 
     <div class="content px-4">
@@ -27,7 +29,7 @@
         var user = (await AuthStat).User;
         if (!user.Identity.IsAuthenticated)
         {
-            NavigationManager.NavigateTo($"/Login");
+            NavigationManager.NavigateTo($"/");
             // NavigationManager.NavigateTo($"/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
         }
     }
