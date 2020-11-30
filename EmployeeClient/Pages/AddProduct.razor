@@ -1,6 +1,9 @@
 ﻿@page "/AddProduct"
 @using EmployeeClient.Models
 @using EmployeeClient.Data
+@using System.ComponentModel.DataAnnotations
+@using System.IO
+@using Microsoft.AspNetCore.Components.Forms
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
 <h3>AddProduct</h3>
@@ -10,11 +13,11 @@
     <ValidationSummary />
 
     <div class="container">
-        
+
         <div class="row">
 
             <div class="col">
-             
+
 
                 <label> Titile:</label>
                 <InputText @bind-Value="newProduct.Title" />
@@ -29,6 +32,18 @@
                 <label> Price </label>
                 <InputNumber @bind-Value="newProduct.Price" />
 
+                <div class="form-group">
+                    <input type="file" @ref="inputReference" multiple />
+                </div>  
+                <button class="btn btn-block btn-success">Upload File</button>
+
+                @if (!string.IsNullOrWhiteSpace(message))
+                {
+                    <div class="alert alert-success">
+                        Image has been uploaded
+                    </div>
+                }
+
             </div>
             <p class="actions">
                 <button class="btn btn-outline-dark" type="submit">Create</button>
@@ -39,11 +54,18 @@
 
 </EditForm>
 
-    @code {
-        private Product newProduct = new Product();
+@code {
+    private Product newProduct = new Product();
 
-        private async Task AddNewProduct()
-        {
-            await ProductService.AddProductAsync(newProduct);
-        }
+    ElementReference[] inputReference;
+
+    private async Task AddNewProduct()
+    {
+        await ProductService.AddProductAsync(newProduct);
     }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+
+    }
+}
