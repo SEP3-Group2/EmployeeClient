@@ -5,7 +5,6 @@
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = "SecurityLevel3")]
 
-
 <h3>AddProduct</h3>
 
 <EditForm Model="@newProduct" OnValidSubmit="@AddNewProduct">
@@ -15,27 +14,52 @@
     <div class="container">
 
         <div class="row">
+            <div class="col-sm-9 col-md-7  mx-auto">
+                <div class="card card-addProduct my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Add New Product</h5>
 
-            <div class="col">
+                        <form class="form-addProduct">
+                            <div class="form-label-group">
+                                <label> <i class="material-icons"> title </i>Title:</label>
+                                <InputText class="form-control" @bind-Value="newProduct.Title" placeholder="Title" required />
+                                <label> <i class="material-icons"> category </i> Category:</label>
+                                <select class="form-control" @bind="newProduct.Category" required>
+                                    <option disabled hidden>Category</option>
+                                    <option>Console </option>
+                                    <option>Game </option>
+                                    <option>PC Component</option>
+                                    <option>Laptop </option>
+                                    <option>TV </option>
+                                    <option>Media Player</option>
+                                    <option>Movie </option>
+                                    <option>Speaker </option>
+                                    <option>Kitchen Appliance </option>
+                                    <option>Iron </option>
+                                    <option>Camera </option>
+                                    <option>Phone </option>
+                                    <option>Smart watch</option>
+                                    <option>Headphones </option>
+                                    <option>Electric scooter</option>
+                                    <option>Air Condtion</option>
+                                    <option>Drones </option>
+                                </select>
 
 
-                <label> Titile:</label>
-                <InputText @bind-Value="newProduct.Title" />
+                                <label> <i class="material-icons"> article </i> Description:</label>
+                                <InputText class="form-control" @bind-Value="newProduct.Description" placeholder="Description" required />
 
-                <label> Category</label>
-                <InputText @bind-Value="newProduct.Category" />
+                                <label> <i class="material-icons"> monetization_on </i> Price: </label>
+                                <InputNumber class="form-control" @bind-Value="newProduct.Price" required />
+                            </div>
 
+                        </form>
+                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit">Create</button>
+                    </div>
 
-                <label> Description:</label>
-                <InputText @bind-Value="newProduct.Description" />
-
-                <label> Price </label>
-                <InputNumber @bind-Value="newProduct.Price" />
-
+                </div>
             </div>
-            <p class="actions">
-                <button class="btn btn-outline-dark" type="submit">Create</button>
-            </p>
+           
         </div>
 
     </div>

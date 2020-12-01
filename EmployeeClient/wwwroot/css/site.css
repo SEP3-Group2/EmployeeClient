@@ -1,7 +1,9 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Times New Roman';
+    background-size: cover;
 }
 
 a, .btn-link {
@@ -24,6 +26,7 @@ app {
     height: 3.5rem;
     display: flex;
     align-items: center;
+    
 }
 
 .main {
@@ -31,7 +34,7 @@ app {
 }
 
     .main .top-row {
-        background-color: #f7f7f7;
+      
         border-bottom: 1px solid #d6d5d5;
         justify-content: flex-end;
     }
@@ -48,6 +51,7 @@ app {
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+  
 }
 
     .sidebar .top-row {
@@ -95,6 +99,7 @@ app {
             .sidebar .nav-item a:hover {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
+               
             }
 
 .content {
@@ -156,7 +161,7 @@ app {
     }
 
     .sidebar {
-        width: 250px;
+        width: 180px;
         height: 100vh;
         position: sticky;
         top: 0;
@@ -181,3 +186,116 @@ app {
         display: block;
     }
 }
+
+
+    input {
+        width: 200px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-repeat: no-repeat;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top:15px; 
+    }
+   
+
+    label{
+        margin-top:17px;
+    }
+
+    
+
+    button {
+        outline: none !important;
+        border: none;
+        background: transparent;
+        border-radius: 40px;
+    }
+
+    table {
+        border-collapse: collapse;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        width: 100%;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    thead tr {
+        background-color: #b89d47;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+
+
+ 
+    .container {
+        border-radius: 5px;
+        padding: 20px;
+        color: black;
+    }
+
+    select{
+        margin:10px;
+    }
+
+
+card-login, card-addProduct, card-register {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-login .card-title, .card-addProduct .card-title, .card-register .card-title {
+    margin-bottom: 2rem;
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.card-login .card-body, .card-addproduct .card-body, .card-register .card-body {
+    padding: 2rem;
+}
+
+.form-login, .form-addProduct, .form-register {
+    width: 100%;
+}
+
+   .btn-outline-success {
+        font-size: 90%;
+        border-radius: 2rem;
+        letter-spacing: .1rem;
+        font-weight: bold;
+        padding: 1rem;
+        transition: all 0.5s;
+        margin-top: 3rem;
+    }
+.btn-outline-dark, .btn-outline-danger {
+    font-size: 90%;
+    border-radius: 2rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    transition: all 0.5s;
+}
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+    margin-right:1.5rem;
+}
+
+.form-label-group input, .form-label-group select, .form-label-group InputTextArea {
+        height: auto;
+        padding: 1rem;
+        border-radius: 2rem;
+    }
+
+  
+
+    
