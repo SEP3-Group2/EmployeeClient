@@ -1,7 +1,12 @@
 ﻿@page "/AddProduct"
 @using EmployeeClient.Models
 @using EmployeeClient.Data
+@using System.IO
+@using EmployeeClient.Data.ImagesService;
+@using Microsoft.AspNetCore.Http;
+@using ImageServer.Models; 
 @inject IProductService ProductService
+@inject IImagesService ImageService
 @inject NavigationManager NavigationManager
 
 <EditForm Model="@newProduct" OnValidSubmit="@AddNewProduct">
@@ -50,6 +55,15 @@
 
                                 <label> <i class="material-icons"> monetization_on </i> Price: </label>
                                 <InputNumber class="form-control" @bind-Value="newProduct.Price" required />
+
+                                <InputFile OnChange="@OnInputFileChange" multiple></InputFile>
+
+                                @if (!string.IsNullOrWhiteSpace(message))
+                                {
+                                    <div class="alert alert-success">
+                                        Image has been uploaded
+                                    </div>
+                                }
                             </div>
 
                         </form>
@@ -58,7 +72,7 @@
 
                 </div>
             </div>
-           
+
         </div>
 
     </div>
@@ -66,10 +80,56 @@
 </EditForm>
 
 @code {
+    List<FileData> fileData = new List<FileData>();
+
+    string message = String.Empty;
+
     private Product newProduct = new Product();
+
+    //Stream fileStream = null;
 
     private async Task AddNewProduct()
     {
         await ProductService.AddProductAsync(newProduct);
+        await UploadImages();
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        //make it so it only uploads when clicking submit
+
+        Console.WriteLine("Input file change called");
+        var maxAllowedFiles = 10;
+
+        foreach (var imageFile in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            var buffers = new byte[imageFile.Size];
+            await imageFile.OpenReadStream().ReadAsync(buffers);
+            string imageType = ".";
+            if (imageFile.ContentType.Contains("/"))
+            {
+                int slashIndex = imageFile.ContentType.IndexOf("/");
+                imageType += imageFile.ContentType.Substring(slashIndex+1);
+
+                Console.WriteLine(imageType);
+            }
+            string imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+            fileData.Add(new FileData
+            {
+                Data = buffers,
+                FileType = imageType,
+                Size = imageFile.Size
+            });
+        }
+    }
+
+    private async Task UploadImages()
+    {
+        if (fileData.Count > 0)
+        {
+            var files = new SaveFile { Files = fileData, ProductID = 2 };
+            await ImageService.UploadImage(files);
+        }
     }
 }

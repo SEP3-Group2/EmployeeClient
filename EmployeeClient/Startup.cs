@@ -13,6 +13,7 @@ using EmployeeClient.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using EmployeeClient.Authentication;
 using System.Security.Claims;
+using EmployeeClient.Data.ImagesService;
 
 namespace EmployeeClient
 {
@@ -35,6 +36,7 @@ namespace EmployeeClient
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<IUserService, CloudUserService>();
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IImagesService, ImagesService>();
 
             services.AddAuthorization(options =>
             {
