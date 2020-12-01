@@ -29,8 +29,8 @@
 
                                 <label> <i class="material-icons"> category </i> Category:</label>
                                 <select class="form-control" @bind="newProduct.Category" required>
-                                    <option disabled hidden>Category</option>
-                                    <option>Console </option>
+                                    <option selected disabled hidden>Category</option>
+                                    <option >Console </option>
                                     <option>Game </option>
                                     <option>PC Component</option>
                                     <option>Laptop </option>
@@ -128,7 +128,7 @@
     {
         if (fileData.Count > 0)
         {
-            var files = new SaveFile { Files = fileData, ProductID = 2 };
+            var files = new SaveFile { Files = fileData, ProductID = 3 };
             await ImageService.UploadImage(files);
         }
     }
