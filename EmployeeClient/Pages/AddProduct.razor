@@ -3,6 +3,9 @@
 @using EmployeeClient.Data
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Policy = "SecurityLevel3")]
+
+<h3>AddProduct</h3>
 
 <EditForm Model="@newProduct" OnValidSubmit="@AddNewProduct">
     <DataAnnotationsValidator />
@@ -17,11 +20,9 @@
                         <h5 class="card-title text-center">Add New Product</h5>
 
                         <form class="form-addProduct">
-
                             <div class="form-label-group">
                                 <label> <i class="material-icons"> title </i>Title:</label>
                                 <InputText class="form-control" @bind-Value="newProduct.Title" placeholder="Title" required />
-
                                 <label> <i class="material-icons"> category </i> Category:</label>
                                 <select class="form-control" @bind="newProduct.Category" required>
                                     <option disabled hidden>Category</option>
