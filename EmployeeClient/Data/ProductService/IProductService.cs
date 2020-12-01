@@ -9,5 +9,6 @@ namespace EmployeeClient.Data
     public interface IProductService
     {
         Task AddProductAsync(Product product);
+        Task<int> GetLastAddedProductID();
     }
 }

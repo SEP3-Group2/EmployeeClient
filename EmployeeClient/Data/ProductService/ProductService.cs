@@ -35,5 +35,11 @@ namespace EmployeeClient.Data
 
             return returnList;
         }
+
+        public async Task<int> GetLastAddedProductID()
+        {
+            string message = await client.GetStringAsync(uri+"/products/1/1");
+            return JsonSerializer.Deserialize<int>(message);
+        }
     }
 }

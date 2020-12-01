@@ -96,8 +96,6 @@
 
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
-        //make it so it only uploads when clicking submit
-
         Console.WriteLine("Input file change called");
         var maxAllowedFiles = 10;
 
@@ -128,8 +126,9 @@
     {
         if (fileData.Count > 0)
         {
-            var files = new SaveFile { Files = fileData, ProductID = 3 };
+            var files = new SaveFile { Files = fileData, ProductID = await ProductService.GetLastAddedProductID() };
             await ImageService.UploadImage(files);
+            message = "uploaded";
         }
     }
 }
