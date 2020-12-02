@@ -10,12 +10,10 @@
 @inject IImagesService ImageService
 <div class="container">
     <div class="row searchFilter">
-
         <div class="col-sm-12">
             <div class="input-group">
                 <input id="table_filter" type="text" class="form-control" @bind-value="Title">
                 <div>
-
                     <select @bind="Category" class="btn btn-light">
                         <option disabled hidden>Select Category...</option>
                         <option>All</option>
@@ -37,11 +35,8 @@
                         <option>Air Condtion</option>
                         <option>Drones </option>
                     </select>
-
                     <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
                 </div>
-
-
             </div>
         </div>
         <label>DKK</label><br>
@@ -51,8 +46,6 @@
         </SfSlider>
     </div>
 </div>
-
-
 
 @if (productsToShow == null)
 {
@@ -70,64 +63,51 @@ else if (!productsToShow.Any())
 else
 {
     <div class="container">
-
         <div class="row">
-
             @foreach (var product in productsToShow)
             {
-
-
                 <div class="col-md-3 col-sm-6">
                     <div class="product-grid">
                         <div class="product-image">
 
                             <a href="#" @onclick="() => TrClickedAtIndex(product.Id)">
-                              
-                                @if (Counter >= 0)
+                                @if (!(productCount >= productsToShow.Count * 2))
                                 {
-                                    
-                                }
-
-                                <img class="pic-1" src=" @(async()=> await GetImagesFromID(product.Id))" />
-
-                                @if (Counter >= 0)
-                                {
-                                    Counter++;
-                                    images.Add(placeholder2);
-                                }
-                                <img class="pic-2" src="@images[Counter-1]" />
-                                @if (Counter >= 0)
-                                {
-                                    GetImagesFromID(product.Id);
+                                    <img class="pic-1" src="@images[productCount]" />
+                                    if (true)
+                                    {
+                                        productCount++;
+                                    }
+                                    <img class="pic-2" src="@images[productCount]" />
+                                    if (true)
+                                    {
+                                        productCount++;
+                                    }
                                 }
                             </a>
-                           
-
-
-
                             <ul class="social">
                                 <li><a href="#" @onclick="() => TrClickedAtIndex(product.Id)"><i class="material-icons">visibility</i></a></li>
                                 <AuthorizeView Policy="Securitylevel3">
                                     <li><a href="#"> <i class="material-icons">settings </i></a></li>
                                 </AuthorizeView>
                             </ul>
-
                         </div>
                         <div class="product-content">
                             <h3 class="title"><a> @product.Title</a></h3>
                             <div class="price">
                                 @product.Price DKK
                             </div>
-
                         </div>
                     </div>
                 </div>
-
+            }
+            @if (true)
+            {
+                counter = 0;
+                productCount = 0;
             }
         </div>
-
     </div>
-
 }
 
 
@@ -151,11 +131,29 @@ else
     {
         products = await ProductService.GetAllProductsAsync();
         productsToShow = products;
+
+        FillImagesWithPlaceholders();
+
+        foreach (var product in productsToShow)
+        {
+            await GetImagesFromID(product.Id);
+        }
     }
     //filters here
     private async Task ExecuteSearch()
     {
         productsToShow = await ProductService.GetTitleCategoryPriceFilteredProductsAsync(Title, Category, Price);
+
+        counter = 0;
+        productCount = 0;
+
+        FillImagesWithPlaceholders();
+
+        foreach (var product in productsToShow)
+        {
+            await GetImagesFromID(product.Id);
+        }
+
         Title = null;
         Category = "All";
     }
@@ -171,22 +169,40 @@ else
     private List<string> images = new List<string>();
     string placeholder = "../css/ps4.PNG";
     string placeholder2 = "../css/ps4-pro-1tb.jpg";
-    public int Counter = 0;
+    public int counter = 0;
+    int productCount = 0;
 
-    private async Task<List<string>> GetImagesFromID(int id)
+    private void FillImagesWithPlaceholders()
     {
+        images = new List<string>(productsToShow.Count * 2);
+        for (int i = 0; i < productsToShow.Count * 2; i++)
+        {
+            if (i % 2 == 0)
+            {
+                images.Add(placeholder);
+            }
+            else
+            {
+                images.Add(placeholder2);
+            }
+        }
+    }
 
-        int addedImages = 0;
+    private async Task GetImagesFromID(int id)
+    {
         imageDataUrls.Clear();
         Console.WriteLine("Button pressed");
-        SaveFile saveFile = await ImageService.GetImages("all", id);
+        SaveFile saveFile = await ImageService.GetImages("two", id);
         Console.WriteLine("STARTING FOREACH");
 
-        if(saveFile.Files.Count != 2)
+
+        if (saveFile.Files.Count < 2)
         {
-            images[0] = placeholder;
-            images[1] = placeholder2;
+            counter++;
+            counter++;
+            return;
         }
+
 
         foreach (var file in saveFile.Files)
         {
@@ -197,25 +213,8 @@ else
                 contentType = "images/jpeg";
             }
 
-            images[addedImages] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
-            addedImages++;
-
-            /*if (id == 1) {
-                if(addedImages < 2)
-                {
-
-                    images[id + addedImages -1] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
-                }
-                addedImages++;
-            }
-            else
-            {
-                if (addedImages < 2)
-                {
-                    images[(id * 2) + addedImages - 1] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
-                }
-                addedImages++;
-            }*/
+            images[counter] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
+            counter++;
 
         }
         foreach (var item in images)
@@ -226,7 +225,6 @@ else
 
         Console.WriteLine(images.Count);
         Console.WriteLine(saveFile.Files.Count);
-        return images;
     }
 
 }

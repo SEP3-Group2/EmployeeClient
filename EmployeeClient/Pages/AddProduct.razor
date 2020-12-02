@@ -30,7 +30,7 @@
                                 <label> <i class="material-icons"> category </i> Category:</label>
                                 <select class="form-control" @bind="newProduct.Category" required>
                                     <option selected disabled hidden>Category</option>
-                                    <option >Console </option>
+                                    <option>Console </option>
                                     <option>Game </option>
                                     <option>PC Component</option>
                                     <option>Laptop </option>
@@ -58,10 +58,16 @@
 
                                 <InputFile OnChange="@OnInputFileChange" multiple></InputFile>
 
+                                @if (!string.IsNullOrWhiteSpace(error))
+                                {
+                                    <div class="alert alert-danger">
+                                        @error
+                                    </div>
+                                }
                                 @if (!string.IsNullOrWhiteSpace(message))
                                 {
                                     <div class="alert alert-success">
-                                        Image has been uploaded
+                                        @message
                                     </div>
                                 }
                             </div>
@@ -83,6 +89,7 @@
     List<FileData> fileData = new List<FileData>();
 
     string message = String.Empty;
+    string error = String.Empty;
 
     private Product newProduct = new Product();
 
@@ -90,26 +97,42 @@
 
     private async Task AddNewProduct()
     {
-        await ProductService.AddProductAsync(newProduct);
-        await UploadImages();
+        if (fileData.Count > 1)
+        {
+            await ProductService.AddProductAsync(newProduct);
+            await UploadImages();
+        }
+        else
+        {
+            error = "You must upload at least two pictures";
+        }
     }
 
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
-        Console.WriteLine("ZFAFADSF");
+        message = String.Empty;
+
         var maxAllowedFiles = 10;
+        if(e.GetMultipleFiles().Count >= 2)
+        {
+            error = String.Empty;
+        }
 
         foreach (var imageFile in e.GetMultipleFiles(maxAllowedFiles))
         {
+            Console.WriteLine("Getting multiple files");
             var buffers = new byte[imageFile.Size];
-            await imageFile.OpenReadStream().ReadAsync(buffers);
+            if (imageFile.Size > 1048576)
+            {
+                error = "Image size can max be 1MB";
+                return;
+            }
+            await imageFile.OpenReadStream(1048576).ReadAsync(buffers);
             string imageType = ".";
             if (imageFile.ContentType.Contains("/"))
             {
                 int slashIndex = imageFile.ContentType.IndexOf("/");
-                imageType += imageFile.ContentType.Substring(slashIndex+1);
-
-                Console.WriteLine(imageType);
+                imageType += imageFile.ContentType.Substring(slashIndex + 1);
             }
             string imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
 
@@ -124,14 +147,9 @@
 
     private async Task UploadImages()
     {
-        Console.WriteLine( "Upload images called");
-        if (fileData.Count > 0)
-        {
-            Console.WriteLine("inside if");
-            var files = new SaveFile { Files = fileData, ProductID = await ProductService.GetLastAddedProductID() };
-            Console.WriteLine("uploading");
-            await ImageService.UploadImage(files);
-            message = "uploaded";
-        }
+        var files = new SaveFile { Files = fileData, ProductID = await ProductService.GetLastAddedProductID() };
+        await ImageService.UploadImage(files);
+        error = String.Empty;
+        message = "Product added";
     }
 }
