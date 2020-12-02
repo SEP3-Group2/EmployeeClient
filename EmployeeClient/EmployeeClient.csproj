@@ -5,13 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Syncfusion.Blazor" Version="18.3.0.52" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.0.0-5rc1.20274" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ImageServer">
-      <HintPath>..\..\..\ImageServer\ImageServer\ImageServer\bin\Debug\net5.0\ImageServer.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

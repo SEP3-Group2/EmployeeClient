@@ -2,7 +2,6 @@
 @using EmployeeClient.Models
 @using EmployeeClient.Data
 @using EmployeeClient.Data.ImagesService
-@using ImageServer.Models
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @inject IImagesService ImageService
@@ -34,6 +33,10 @@
         foreach (var file in saveFile.Files)
         {
             string contentType = "images/" + file.FileType.Substring(1);
+            if (contentType.Equals("images/jpg"))
+            {
+                contentType = "images/jpeg";
+            }
             imageDataUrls.Add($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
         }
     }

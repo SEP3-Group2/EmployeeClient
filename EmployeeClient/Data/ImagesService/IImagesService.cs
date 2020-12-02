@@ -1,5 +1,4 @@
 ﻿using EmployeeClient.Models;
-using ImageServer.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using System;

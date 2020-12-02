@@ -1,0 +1,232 @@
+﻿@page "/products"
+
+@using EmployeeClient.Models;
+@using EmployeeClient.Data;
+@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+@using System.Collections
+@using Syncfusion.Blazor.Inputs
+@using EmployeeClient.Data.ImagesService
+@inject IImagesService ImageService
+<div class="container">
+    <div class="row searchFilter">
+
+        <div class="col-sm-12">
+            <div class="input-group">
+                <input id="table_filter" type="text" class="form-control" @bind-value="Title">
+                <div>
+
+                    <select @bind="Category" class="btn btn-light">
+                        <option disabled hidden>Select Category...</option>
+                        <option>All</option>
+                        <option>Console </option>
+                        <option>Game </option>
+                        <option>PC Component</option>
+                        <option>Laptop </option>
+                        <option>TV </option>
+                        <option>Media Player</option>
+                        <option>Movie </option>
+                        <option>Speaker </option>
+                        <option>Kitchen Appliance </option>
+                        <option>Iron </option>
+                        <option>Camera </option>
+                        <option>Phone </option>
+                        <option>Smart watch</option>
+                        <option>Headphones </option>
+                        <option>Electric scooter</option>
+                        <option>Air Condtion</option>
+                        <option>Drones </option>
+                    </select>
+
+                    <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
+                </div>
+
+
+            </div>
+        </div>
+        <label>DKK</label><br>
+        <SfSlider Min="0" Max="10000" @bind-Value="Price" Step="500" Width="300">
+            <SliderTooltipData IsVisible="true" ShowOn="TooltipShowOn.Hover" Format="N0" Placement="TooltipPlacement.Before"></SliderTooltipData>
+            <SliderTicksData Placement="Placement.After" Format="N0" ShowSmallTicks="false" LargeStep="2500"></SliderTicksData>
+        </SfSlider>
+    </div>
+</div>
+
+
+
+@if (productsToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!productsToShow.Any())
+{
+    <p>
+        <em>No items exist. </em>
+    </p>
+}
+
+else
+{
+    <div class="container">
+
+        <div class="row">
+
+            @foreach (var product in productsToShow)
+            {
+
+
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-grid">
+                        <div class="product-image">
+
+                            <a href="#" @onclick="() => TrClickedAtIndex(product.Id)">
+                              
+                                @if (Counter >= 0)
+                                {
+                                    
+                                }
+
+                                <img class="pic-1" src=" @(async()=> await GetImagesFromID(product.Id))" />
+
+                                @if (Counter >= 0)
+                                {
+                                    Counter++;
+                                    images.Add(placeholder2);
+                                }
+                                <img class="pic-2" src="@images[Counter-1]" />
+                                @if (Counter >= 0)
+                                {
+                                    GetImagesFromID(product.Id);
+                                }
+                            </a>
+                           
+
+
+
+                            <ul class="social">
+                                <li><a href="#" @onclick="() => TrClickedAtIndex(product.Id)"><i class="material-icons">visibility</i></a></li>
+                                <AuthorizeView Policy="Securitylevel3">
+                                    <li><a href="#"> <i class="material-icons">settings </i></a></li>
+                                </AuthorizeView>
+                            </ul>
+
+                        </div>
+                        <div class="product-content">
+                            <h3 class="title"><a> @product.Title</a></h3>
+                            <div class="price">
+                                @product.Price DKK
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    </div>
+
+}
+
+
+
+
+
+
+
+@code {
+    private IList<Product> productsToShow;
+    private IList<Product> products;
+    public int ID;
+    public string Title;
+    public string Category = "All";
+    public string Description;
+    public string Price = "20000";
+
+    private Product productToShow = new Product();
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllProductsAsync();
+        productsToShow = products;
+    }
+    //filters here
+    private async Task ExecuteSearch()
+    {
+        productsToShow = await ProductService.GetTitleCategoryPriceFilteredProductsAsync(Title, Category, Price);
+        Title = null;
+        Category = "All";
+    }
+
+    public async Task TrClickedAtIndex(int id)
+    {
+        ProductService.setProductId(id);
+        NavigationManager.NavigateTo("/ProductView");
+    }
+
+
+    private IList<string> imageDataUrls = new List<string>();
+    private List<string> images = new List<string>();
+    string placeholder = "../css/ps4.PNG";
+    string placeholder2 = "../css/ps4-pro-1tb.jpg";
+    public int Counter = 0;
+
+    private async Task<List<string>> GetImagesFromID(int id)
+    {
+
+        int addedImages = 0;
+        imageDataUrls.Clear();
+        Console.WriteLine("Button pressed");
+        SaveFile saveFile = await ImageService.GetImages("all", id);
+        Console.WriteLine("STARTING FOREACH");
+
+        if(saveFile.Files.Count != 2)
+        {
+            images[0] = placeholder;
+            images[1] = placeholder2;
+        }
+
+        foreach (var file in saveFile.Files)
+        {
+            Console.WriteLine("FOREACH");
+            string contentType = "images/" + file.FileType.Substring(1);
+            if (contentType.Equals("images/jpg"))
+            {
+                contentType = "images/jpeg";
+            }
+
+            images[addedImages] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
+            addedImages++;
+
+            /*if (id == 1) {
+                if(addedImages < 2)
+                {
+
+                    images[id + addedImages -1] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
+                }
+                addedImages++;
+            }
+            else
+            {
+                if (addedImages < 2)
+                {
+                    images[(id * 2) + addedImages - 1] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
+                }
+                addedImages++;
+            }*/
+
+        }
+        foreach (var item in images)
+        {
+            Console.WriteLine(item);
+        }
+
+
+        Console.WriteLine(images.Count);
+        Console.WriteLine(saveFile.Files.Count);
+        return images;
+    }
+
+}
