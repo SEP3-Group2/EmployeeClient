@@ -6,71 +6,44 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        <!-- <div class="container">
 
-         <div class="row">
-             <div class="col">
-
-                 <label class="oi oi-person">  Email</label>
-                 <input id="create" type="text" placeholder="Email" @bind-value="email" />
-
-
-                 <label class="oi oi-lock-locked"> Password</label>
-                 <input id="create" type="password" placeholder="Password" @bind-value="password" />
-
-                 <div style="color:red">@errorMessage</div>
-
-                 <a class="btn btn-outline-dark" href="" @onclick="PerformLogin">
-                     Login
-                 </a>
-             </div>
-
-             </div>
-         </div>
-        -->
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                    <div class="card card-login my-5">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Login</h5>
-                            <form class="form-login">
-                                <div class="form-label-group">
-                                    <label class="oi oi-person">  Email</label>
-                                    <input type="email" class="form-control" placeholder="Email" @bind-value="email" required>
-                                </div>
-                                <div class="form-label-group">
-                                    <label class="oi oi-lock-locked"> Password</label>
-                                    <input type="password" class="form-control" placeholder="Password" @bind-value="password" required>
-                                </div>
+                <div class=" mx-auto">
 
-
-                            </form>
-                            <button class="btn btn-outline-success btn-block text-uppercase" type="submit"  @onclick="PerformLogin">Log in</button>
+                    <h5 class="card-title text-center">Log in</h5>
+                    <form class="form-login">
+                        <div class="form-label-group">
+                            <label class="oi oi-person">  Email</label>
+                            <input type="email" class="form-control" placeholder="Email" @bind-value="email" required>
                         </div>
+                        <div class="form-label-group">
+                            <label class="oi oi-lock-locked"> Password</label>
+                            <input type="password" class="form-control" placeholder="Password" @bind-value="password" required>
+                        </div>
+
+                    </form>
+                    <div class="form-label-group">
+                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit" @onclick="PerformLogin">Login</button>
+                        <p class="text-center">Don't have an account? <a class="btn btn-primary" href="Register">Sign up</a> </p>
                     </div>
+
                 </div>
+
             </div>
         </div>
     </NotAuthorized>
     <Authorized>
         <div class="container">
             <div class="row">
-                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                    <div class="card card-login my-5">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Log out</h5>
-                           
-                            <button class="btn btn-outline-danger btn-block" href="" @onclick="PerformLogout">
-                                Log out
-                            </button>
-                        </div>
-                    </div>
+                <div class=" mx-auto">
+                    <button class="btn btn-outline-danger btn-block" href="" @onclick="PerformLogout">
+                        Log out
+                    </button>
                 </div>
             </div>
         </div>
-        
     </Authorized>
 </AuthorizeView>
 
