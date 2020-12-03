@@ -120,6 +120,12 @@
 
         foreach (var imageFile in e.GetMultipleFiles(maxAllowedFiles))
         {
+            if (e.GetMultipleFiles().Count < 2)
+            {
+                error = "You must upload at least two pictures";
+                return;
+            }
+
             Console.WriteLine("Getting multiple files");
             var buffers = new byte[imageFile.Size];
             if (imageFile.Size > 1048576)
