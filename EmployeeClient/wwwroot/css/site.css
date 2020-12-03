@@ -115,27 +115,28 @@ card-register, card-login {
     width: 100%;
 }
 
+
 .btn-outline-success {
     font-size: 90%;
     border-radius: 2rem;
-    letter-spacing: .1rem;
     font-weight: bold;
     padding: 1rem;
     transition: all 0.5s;
     margin: 1rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
+    
 }
 
 .btn-outline-danger{
     font-size: 90%;
     border-radius: 2rem;
-    letter-spacing: .1rem;
     font-weight: bold;
     transition: all 0.5s;
+    width:120px;
 }
-.btn-warning {
-    border-radius: 2rem;
+.btn-warning, .btn-primary {
+    border-radius: 1rem;
 }
 
 .btn-outline-dark {

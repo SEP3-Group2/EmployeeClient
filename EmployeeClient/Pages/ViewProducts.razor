@@ -10,41 +10,43 @@
 @inject IImagesService ImageService
 <div class="container">
     <div class="row searchFilter">
-        <div class="col-sm-12">
-            <div class="input-group">
-                <input id="table_filter" type="text" class="form-control" @bind-value="Title">
-                <div>
-                    <select @bind="Category" class="btn btn-light">
-                        <option disabled hidden>Select Category...</option>
-                        <option>All</option>
-                        <option>Console </option>
-                        <option>Game </option>
-                        <option>PC Component</option>
-                        <option>Laptop </option>
-                        <option>TV </option>
-                        <option>Media Player</option>
-                        <option>Movie </option>
-                        <option>Speaker </option>
-                        <option>Kitchen Appliance </option>
-                        <option>Iron </option>
-                        <option>Camera </option>
-                        <option>Phone </option>
-                        <option>Smart watch</option>
-                        <option>Headphones </option>
-                        <option>Electric scooter</option>
-                        <option>Air Condtion</option>
-                        <option>Drones </option>
-                    </select>
-                    <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
-                </div>
-            </div>
+
+        <div class="col-12 col-md-8" style="padding:2.5px;">
+            <input id="table_filter" type="text" class="form-control" @bind-value="Title">
         </div>
-        <label>DKK</label><br>
-        <SfSlider Min="0" Max="10000" @bind-Value="Price" Step="500" Width="300">
-            <SliderTooltipData IsVisible="true" ShowOn="TooltipShowOn.Hover" Format="N0" Placement="TooltipPlacement.Before"></SliderTooltipData>
-            <SliderTicksData Placement="Placement.After" Format="N0" ShowSmallTicks="false" LargeStep="2500"></SliderTicksData>
-        </SfSlider>
+        <div class="col-6 col-md-4" style="padding:2.5px;">
+            <select @bind="Category" @onselectstart="ExecuteSearch" class="btn btn-light" style="width:150px;">
+                <option disabled hidden>Select Category...</option>
+                <option>All</option>
+                <option>Console </option>
+                <option>Game </option>
+                <option>PC Component</option>
+                <option>Laptop </option>
+                <option>TV </option>
+                <option>Media Player</option>
+                <option>Movie </option>
+                <option>Speaker </option>
+                <option>Kitchen Appliance </option>
+                <option>Iron </option>
+                <option>Camera </option>
+                <option>Phone </option>
+                <option>Smart watch</option>
+                <option>Headphones </option>
+                <option>Electric scooter</option>
+                <option>Air Condtion</option>
+                <option>Drones </option>
+            </select>
+
+            <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
+        </div>
     </div>
+
+
+    <label>DKK</label><br>
+    <SfSlider Min="0" Max="10000" @bind-Value="Price" Step="500" Width="300">
+        <SliderTooltipData IsVisible="true" ShowOn="TooltipShowOn.Hover" Format="N0" Placement="TooltipPlacement.Before"></SliderTooltipData>
+        <SliderTicksData Placement="Placement.After" Format="N0" ShowSmallTicks="false" LargeStep="2500"></SliderTicksData>
+    </SfSlider>
 </div>
 
 @if (productsToShow == null)
