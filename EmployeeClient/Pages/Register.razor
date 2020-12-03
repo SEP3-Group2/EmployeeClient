@@ -4,11 +4,11 @@
 @using EmployeeClient.Models;
 @inject IUserService UsersService
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Policy = "SecurityLevel4")]
 
 <EditForm Model="@newUser" OnValidSubmit="@AddNewUser">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
     <div class="container">
 
         <div class="row">
@@ -37,6 +37,7 @@
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
+                                    <option>4</option>
                                 </select>
                             </div>
 

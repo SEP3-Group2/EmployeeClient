@@ -13,6 +13,7 @@ using EmployeeClient.Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using EmployeeClient.Authentication;
 using System.Security.Claims;
+using EmployeeClient.Data.ImagesService;
 
 namespace EmployeeClient
 {
@@ -37,6 +38,7 @@ namespace EmployeeClient
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<IWarehouseProductService, WarehouseProductService>();
             services.AddSingleton<IWPJoinService, WPJoinService>();
+            services.AddSingleton<IImagesService, ImagesService>();
 
             services.AddAuthorization(options =>
             {
