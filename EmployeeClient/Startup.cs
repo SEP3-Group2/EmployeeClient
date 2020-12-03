@@ -36,6 +36,8 @@ namespace EmployeeClient
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<IUserService, CloudUserService>();
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IWarehouseProductService, WarehouseProductService>();
+            services.AddSingleton<IWPJoinService, WPJoinService>();
             services.AddSingleton<IImagesService, ImagesService>();
 
             services.AddAuthorization(options =>
