@@ -10,5 +10,11 @@ namespace EmployeeClient.Data
     {
         Task AddProductAsync(Product product);
         Task<int> GetLastAddedProductID();
+        Task<List<Product>> GetAllProductsAsync();
+        Task<IList<Product>> GetTitleCategoryPriceFilteredProductsAsync(string title, string category, string price);
+        Task<Product> GetProductByIdAsync(int id);
+        void setProductId(int id);
+        int getProductId();
     }
 }
+

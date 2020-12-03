@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using EmployeeClient.Authentication;
 using System.Security.Claims;
 using EmployeeClient.Data.ImagesService;
-
+using Syncfusion.Blazor;
 namespace EmployeeClient
 {
     public class Startup
@@ -51,8 +51,8 @@ namespace EmployeeClient
                 options.AddPolicy("SecurityLevel4", a =>
                     a.RequireAuthenticatedUser().RequireClaim("Level", "4"));
             });
+            services.AddSyncfusionBlazor();
 
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

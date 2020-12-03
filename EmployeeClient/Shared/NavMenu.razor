@@ -1,54 +1,53 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">SELLECTRIC</a>
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+﻿
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="#" class="navbar-brand"><b>SELLECTRIC</b></a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="warehouse" Match="NavLinkMatch.All">
-                <span class="oi oi-plus" aria-hidden="true"></span> Warehouse
-            </NavLink>
-        </li>
-        <AuthorizeView Policy="Securitylevel4">
+    <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+        <div class="navbar-nav">
+
+            <a class="nav-item nav-link" href=""> Home </a>
+
             <li class="nav-item px-3">
-                <NavLink class="nav-link" href="register">
-                    <span class="oi oi-account-login" aria-hidden="true"></span> Register
+                <NavLink class="nav-link" href="warehouse" Match="NavLinkMatch.All">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Warehouse
                 </NavLink>
             </li>
-        </AuthorizeView>
-        <AuthorizeView Policy="Securitylevel3">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="AddProduct">
-                    <span class="oi oi-plus" aria-hidden="true"></span> Add Product
-                </NavLink>
-            </li>
-        </AuthorizeView>
-        <AuthorizeView Policy="Securitylevel1">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="whatever">
-                    <span class="oi oi-location" aria-hidden="true"></span> Whatever
-                </NavLink>
-            </li>
-        </AuthorizeView>
-        <AuthorizeView Policy="Securitylevel2">
-            <li class="nav-item px-3">
-                <NavLink class="nav-link" href="that">
-                    <span class="oi oi-list-rich" aria-hidden="true"></span> That
-                </NavLink>
-            </li>
-        </AuthorizeView>
+
+            <a href="products" class="nav-item nav-link">Products</a>
+
+            <AuthorizeView Policy="Securitylevel4">
+                <a class=" nav-item nav-link" href="register"> Register </a>
+            </AuthorizeView>
+
+            <AuthorizeView Policy="Securitylevel3">
+                <a class=" nav-item nav-link" href="AddProduct"> Add Product</a>
+            </AuthorizeView>
+
+            <AuthorizeView Policy="Securitylevel1">
+                <a class=" nav-item nav-link" href="whatever"> Whatever </a>
+            </AuthorizeView>
+
+            <AuthorizeView Policy="Securitylevel2">
+                <a class=" nav-item nav-link" href="that">That</a>
+            </AuthorizeView>
 
 
-    </ul>
-</div>
+        </div>
+
+        <div class="navbar-nav ml-auto action-buttons">
+            <div class="nav-item dropdown">
+                <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle mr-4">Log in/out</a>
+                <div class="dropdown-menu action-form">
+                    <LoginComponent.Login />
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
 
 @code {
     private bool collapseNavMenu = true;
