@@ -35,19 +35,19 @@ namespace EmployeeClient
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddSingleton<IUserService, CloudUserService>();
             services.AddSingleton<IProductService, ProductService>();
+            services.AddSingleton<IWarehouseProductService, WarehouseProductService>();
+            services.AddSingleton<IWPJoinService, WPJoinService>();
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("SecurityLevel1", a =>
-                    a.RequireAuthenticatedUser().RequireClaim("Level", "1", "2", "3", "4", "5"));
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "1", "2", "3"));
                 options.AddPolicy("SecurityLevel2", a =>
-                    a.RequireAuthenticatedUser().RequireClaim("Level", "2", "3", "4", "5"));
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "2", "3"));
                 options.AddPolicy("SecurityLevel3", a =>
-                    a.RequireAuthenticatedUser().RequireClaim("Level", "3", "4", "5"));
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "3"));
                 options.AddPolicy("SecurityLevel4", a =>
-                    a.RequireAuthenticatedUser().RequireClaim("Level", "4", "5"));
-                options.AddPolicy("SecurityLevel5", a =>
-                    a.RequireAuthenticatedUser().RequireClaim("Level", "5"));
+                    a.RequireAuthenticatedUser().RequireClaim("Level", "4"));
             });
 
             

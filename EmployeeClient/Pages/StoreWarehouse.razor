@@ -1,0 +1,121 @@
+﻿@page "/warehouse"
+@using EmployeeClient.Models
+@using EmployeeClient.Data
+@inject IWarehouseProductService WarehouseProductService;
+@inject IWPJoinService WPJoinService;
+<h3>StoreWarehouse</h3>
+<h1>Select Store</h1>
+<select class="form-control" @bind="store">
+    <option disabled hidden>Category</option>
+    <option>Horsens</option>
+    <option>Aalborg</option>
+    <option>Frederiksberg</option>
+</select>
+@if (getChosenStoreId()==0)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>StoreId</th>
+            <th>ProductId</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in warehouseProducts)
+        {
+        <tr>
+            <td>@product.warehouseProduct.storeId</td>
+            <td>@product.warehouseProduct.productId</td>
+            <td>@product.warehouseProduct.quantity</td>
+            <td>@product.product.Title</td>
+            <td>@product.product.Category</td>
+            <td>@product.product.Price</td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+}
+else
+{
+
+    if(getChosenStoreId()==1)
+    {
+        storeWarehouseProducts = horsensWarehouseProducts;
+    }else if (getChosenStoreId() == 2)
+    {
+        storeWarehouseProducts = aalborgWarehouseProducts;
+    }else if (getChosenStoreId() == 3)
+    {
+        storeWarehouseProducts = frederiksbergWarehouseProducts;
+    }
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>StoreId</th>
+            <th>ProductId</th>
+            <th>Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in storeWarehouseProducts)
+        {
+        <tr>
+            <td>@product.warehouseProduct.storeId</td>
+            <td>@product.warehouseProduct.productId</td>
+            <td>@product.warehouseProduct.quantity</td>
+            <td>@product.product.Title</td>
+            <td>@product.product.Category</td>
+            <td>@product.product.Price</td>
+        </tr>
+        }
+    </tbody>
+</table>
+}
+}
+
+
+@code {
+
+    private String store="";
+    private List<WPJoin> warehouseProducts;
+    private List<WPJoin> storeWarehouseProducts = new List<WPJoin>();
+    private List<WPJoin> horsensWarehouseProducts;
+    private List<WPJoin> aalborgWarehouseProducts;
+    private List<WPJoin> frederiksbergWarehouseProducts;
+    protected async override Task OnInitializedAsync()
+    {
+        warehouseProducts = new List<WPJoin>();
+        warehouseProducts = await WPJoinService.GetAllWPJoinAsync();
+        horsensWarehouseProducts = new List<WPJoin>();
+        horsensWarehouseProducts = await WPJoinService.GetStoreWPJoinAsync(1);
+        aalborgWarehouseProducts = new List<WPJoin>();
+        aalborgWarehouseProducts = await WPJoinService.GetStoreWPJoinAsync(2);
+        frederiksbergWarehouseProducts = new List<WPJoin>();
+        frederiksbergWarehouseProducts = await WPJoinService.GetStoreWPJoinAsync(3);
+
+    }
+
+
+    private int getChosenStoreId()
+    {
+        if (store.Equals("Horsens"))
+        {
+            return 1;
+        }
+        else if (store.Equals("Aalborg"))
+        {
+            return 2;
+        }
+        else if (store.Equals("Frederiksberg"))
+        {
+            return 3;
+        }
+        return 0;
+    }
+
+
+}
