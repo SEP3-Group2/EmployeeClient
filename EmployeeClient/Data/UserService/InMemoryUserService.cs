@@ -51,6 +51,36 @@ namespace EmployeeClient.Data
             throw new NotImplementedException();
         }
 
+        public Task DeleteUserAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<User>> GetAllUsersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserByIDAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetUserID()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetUserID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> UpdateUserAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<User> ValidateUser(string userName, string password)
         {
             User first = users.FirstOrDefault(user => user.Email.Equals(userName));
@@ -65,6 +95,16 @@ namespace EmployeeClient.Data
             }
 
             return first;
+        }
+
+        int IUserService.GetUserID()
+        {
+            throw new NotImplementedException();
+        }
+
+        void IUserService.SetUserID(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

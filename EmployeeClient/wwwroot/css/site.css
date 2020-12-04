@@ -390,7 +390,9 @@ card-register, card-login {
 }
 
 
-
+.userList li {
+    display:inline;
+}
 
 
 

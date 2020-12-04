@@ -82,8 +82,9 @@ namespace EmployeeClient.Authentication
         {
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Name, user.Email));
-            claims.Add(new Claim("Position", user.Position));
+            claims.Add(new Claim(ClaimTypes.Role, user.Position));
             claims.Add(new Claim("Level", user.SecurityLevel.ToString()));
+            claims.Add(new Claim(ClaimTypes.SerialNumber, user.UserID.ToString()));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, "apiauth_type");
             return identity;

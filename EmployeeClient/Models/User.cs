@@ -34,5 +34,18 @@ namespace EmployeeClient.Models
 
         [JsonPropertyName("storeID")]
         public int StoreID { get; set; }
+
+        public bool Equals(User user)
+        {
+            return UserID == user.UserID &&
+                   Password == user.Password &&
+                   Email == user.Email &&
+                   Name == user.Name &&
+                   Address == user.Address &&
+                   Contact == user.Contact &&
+                   SecurityLevel == user.SecurityLevel &&
+                   Position == user.Position &&
+                   StoreID == user.StoreID;
+        }
     }
 }
