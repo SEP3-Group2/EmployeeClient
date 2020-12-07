@@ -18,7 +18,6 @@
                         <h5 class="card-title text-center">Employee Information</h5>
                         <form class="form-register">
 
-                            <!--DisplayUser != logged in user && User != HR-->
                             @if (loggedInUserID != UserService.GetUserID() && !(loggedInUserPosition.Equals("HR")))
                             {
                                 <div class="form-label-group">
