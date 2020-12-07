@@ -99,5 +99,14 @@ namespace EmployeeClient.Data
         {
             return productId;
         }
+
+        public async Task ModifyProductAsync(Product product)
+        {
+            string orderProductAsJson = JsonSerializer.Serialize(product);
+            HttpContent content = new StringContent(orderProductAsJson,
+                Encoding.UTF8,
+                "application/json");
+            await client.PostAsync(uri + "/modifyProduct", content);
+        }
     }
 }

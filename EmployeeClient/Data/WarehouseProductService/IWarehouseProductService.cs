@@ -11,6 +11,10 @@ namespace EmployeeClient.Data
         Task<List<WarehouseProduct>> GetWarehouseProductsAsync();
         Task<List<WarehouseProduct>> GetStoreWarehouseProductsAsync(int storeid);
         Task AddWarehouseProductAsync(WarehouseProduct warehouseProduct);
+        Task OrderProductFromManufacturerAsync(OrderProduct orderProduct);
+        Task OrderProductFromStore(OrderProduct orderProduct);
+        Task DecrementOrderQuantity(OrderProduct orderProduct);
+        Task<List<WarehouseProduct>> GetWarehouseProductFromStoresById(WarehouseProduct warehouseProduct);
 
     }
 }

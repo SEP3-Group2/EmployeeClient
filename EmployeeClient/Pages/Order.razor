@@ -1,0 +1,200 @@
+﻿@page "/orderProduct"
+@using EmployeeClient.Data
+@using EmployeeClient.Models
+@inject IWarehouseProductService WarehouseProductService
+@inject IWPJoinService WPJoinService
+@inject NavigationManager NavigationManager
+<h3>Order Product From Store</h3>
+
+
+
+@if (!showNext)
+{
+    <label for="storeId">StoreId:</label>
+    <input @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
+    <br>
+    <br>
+    <label for="productId">ProductId:</label>
+    <input @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
+    <br>
+    <br>
+    <label for="quantity">Quantity:</label>
+    <input @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
+    <br>
+    <br>
+    <button @onclick="GetWarehouseProductFromStoresById" type="button">See stock in other stores</button>
+    <button @onclick="NavigateBack">Back</button>
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <div class="alert alert-danger" role="alert">
+            @error
+        </div>
+    }
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>StoreId</th>
+                <th>ProductId</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in warehouseProductsFromStore)
+            {
+                <tr>
+                    <td>@product.storeId</td>
+                    <td>@product.productId</td>
+                    <td>@product.quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <label for="storeId">StoreId:</label>
+    <input @bind-value="orderProduct.storeId" type="text" id="storeId" name="storeId">
+    <br>
+    <br>
+    <label for="orderCount">OrderCount:</label>
+    <input @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
+    <br>
+    <br>
+    <button @onclick="OrderProductsFromStore" type="button">Order</button>
+    <button @onclick="NavigateBack">Back</button>
+
+    @if (!string.IsNullOrWhiteSpace(success))
+    {
+        <div class="alert alert-success" role="alert">
+            @success
+        </div>
+    }
+
+
+}
+
+
+
+@code {
+
+    private OrderProduct orderProduct = new OrderProduct();
+    private WarehouseProduct warehouseProduct = new WarehouseProduct();
+    private string error = String.Empty;
+    private string success = String.Empty;
+    private bool showNext = false;
+    private List<WarehouseProduct> warehouseProductsFromStore;
+    private List<WarehouseProduct> allWarehouseProducts;
+    private List<WPJoin> wpJoins;
+
+    protected async override Task OnInitializedAsync()
+    {
+        wpJoins = new List<WPJoin>();
+        wpJoins = await WPJoinService.GetAllWPJoinAsync();
+        allWarehouseProducts = new List<WarehouseProduct>();
+        foreach (var w in wpJoins)
+        {
+            allWarehouseProducts.Add(w.warehouseProduct);
+        }
+
+    }
+    private async Task OrderProductsFromStore()
+    {
+        orderProduct.warehouseProduct = warehouseProduct;
+        success = "Product successfully ordered from store!";
+        await WarehouseProductService.OrderProductFromStore(orderProduct);
+    }
+    private async Task GetWarehouseProductFromStoresById()
+    {
+        if (warehouseProduct.storeId != 0 && warehouseProduct.productId != 0 && warehouseProduct.quantity>=0)
+        {
+            if (ItemSame())
+            {
+                warehouseProductsFromStore = new List<WarehouseProduct>();
+                showNext = true;
+                error = String.Empty;
+                warehouseProductsFromStore = await WarehouseProductService.GetWarehouseProductFromStoresById(warehouseProduct);
+
+            }
+            else
+            {
+                error = "Warehouse product does not exist!";
+                showNext = false;
+            }
+        }else if(warehouseProduct.storeId > 0 && warehouseProduct.productId > 0)
+        {
+            error = "StoreId and/or ProductId cannot be a negative number!";
+            showNext = false;
+        }
+        else
+        {
+            error = "All fields must be filled out!";
+            showNext = false;
+        }
+
+
+
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/warehouse");
+    }
+    private bool ItemSame()
+    {
+        foreach (var p in allWarehouseProducts)
+        {
+
+            if (warehouseProduct.equals(p))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+    private void sendWarehouseProduct()
+    {
+        showNext = true;
+
+    }
+    /*
+<EditForm Model="@orderProduct" OnValidSubmit="@OrderProductFromManufacturer">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-9 col-md-7  mx-auto">
+                <div class="card card-addProduct my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Add New Product</h5>
+
+                        <form class="form-addProduct">
+                            <div class="form-label-group">
+                                <label> <i class="material-icons"> productid </i>ProductId:</label>
+                                <InputText class="form-control" @bind-value="orderProduct.warehouseProduct.productId" placeholder="ProductId" required />
+                                <label> <i class="material-icons"> storeid </i>StoreId:</label>
+                                <InputText class="form-control" @bind-value="orderProduct.warehouseProduct.storeId" placeholder="StoreId" required />
+                                <label> <i class="material-icons"> quantity </i>Quantity:</label>
+                                <InputText class="form-control" @bind-value="orderProduct.warehouseProduct.quantity" placeholder="Quantity" required />
+                                <label> <i class="material-icons"> orderCount </i>OrderCount:</label>
+                                <InputText class="form-control" @bind-value="orderProduct.orderCount" placeholder="OrderCount" required />
+                            </div>
+
+                        </form>
+                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Order</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</EditForm>
+*/
+
+
+}

@@ -29,8 +29,6 @@ namespace EmployeeClient.Data
         {
             string message = await client.GetStringAsync(uri + "/warehouseproducts/"+storeid);
             List<WarehouseProduct> returnList = JsonSerializer.Deserialize<List<WarehouseProduct>>(message);
-            Console.WriteLine(returnList);
-            Console.WriteLine("fhsdkhfklsj");
 
             return returnList;
         }
@@ -42,6 +40,41 @@ namespace EmployeeClient.Data
                 Encoding.UTF8,
                 "application/json");
             await client.PostAsync(uri + "/warehouseproducts", content);
+        }
+
+        public async Task OrderProductFromManufacturerAsync(OrderProduct orderProduct)
+        {
+            string orderProductAsJson = JsonSerializer.Serialize(orderProduct);
+            HttpContent content = new StringContent(orderProductAsJson,
+                Encoding.UTF8,
+                "application/json");
+            await client.PostAsync(uri + "/warehouseproducts/orderProductFromManufacturer", content);
+        }
+
+        public async Task OrderProductFromStore(OrderProduct orderProduct)
+        {
+            string orderProductAsJson = JsonSerializer.Serialize(orderProduct);
+            HttpContent content = new StringContent(orderProductAsJson,
+                Encoding.UTF8,
+                "application/json");
+            await client.PostAsync(uri + "/warehouseproducts/orderProductFromStore", content);
+        }
+
+        public async Task DecrementOrderQuantity(OrderProduct orderProduct)
+        {
+            string orderProductAsJson = JsonSerializer.Serialize(orderProduct);
+            HttpContent content = new StringContent(orderProductAsJson,
+                Encoding.UTF8,
+                "application/json");
+            await client.PostAsync(uri + "/warehouseproducts/decrementProductQuantity", content);
+        }
+
+        public async Task<List<WarehouseProduct>> GetWarehouseProductFromStoresById(WarehouseProduct warehouseProduct)
+        {
+            string message = await client.GetStringAsync(uri + "/warehouseproducts/" +warehouseProduct.storeId+"/"+warehouseProduct.productId+"/"+warehouseProduct.quantity);
+            List<WarehouseProduct> returnList = JsonSerializer.Deserialize<List<WarehouseProduct>>(message);
+
+            return returnList;
         }
     }
 }

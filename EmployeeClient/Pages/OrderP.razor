@@ -1,0 +1,121 @@
+﻿@page "/orderP"
+@using EmployeeClient.Models
+@using EmployeeClient.Data
+@inject IWarehouseProductService WarehouseProductService
+@inject IWPJoinService WPJoinService
+@inject NavigationManager NavigationManager
+
+
+<h3>Order Product From Manufacturer</h3>
+
+
+<label for="storeId">StoreId:</label>
+<input @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
+<br>
+<br>
+<label for="productId">ProductId:</label>
+<input @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
+<br>
+<br>
+<label for="quantity">Quantity:</label>
+<input @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
+<br>
+<br>
+<label for="orderCount">OrderCount:</label>
+<input @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
+<br>
+<br>
+<button @onclick="OrderProductsFromManufacturer" type="button">Order</button>
+<button @onclick="NavigateBack">Back</button>
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <div class="alert alert-danger" role="alert">
+        @error
+    </div>
+}
+@if (!string.IsNullOrWhiteSpace(success))
+{
+    <div class="alert alert-success" role="alert">
+        @success
+    </div>
+}
+
+
+
+
+
+@code {
+    private OrderProduct orderProduct = new OrderProduct();
+    private WarehouseProduct warehouseProduct = new WarehouseProduct();
+    private List<WarehouseProduct> allWarehouseProducts;
+    private List<WPJoin> wpJoins;
+    private string error = String.Empty;
+    private string success = String.Empty;
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        wpJoins = new List<WPJoin>();
+        wpJoins = await WPJoinService.GetAllWPJoinAsync();
+        allWarehouseProducts = new List<WarehouseProduct>();
+        foreach (var w in wpJoins)
+        {
+            allWarehouseProducts.Add(w.warehouseProduct);
+        }
+
+    }
+    private async Task OrderProductsFromManufacturer()
+    {
+
+        if (warehouseProduct.storeId != 0 && warehouseProduct.productId != 0 && warehouseProduct.quantity >= 0 && orderProduct.orderCount != 0)
+        {
+            if (ItemSame())
+            {
+                orderProduct.storeId = 0;
+                orderProduct.warehouseProduct = warehouseProduct;
+                error = String.Empty;
+                Console.WriteLine(error.ToString());
+                success = "Product successfully ordered from manufacturer";
+                await WarehouseProductService.OrderProductFromManufacturerAsync(orderProduct);
+
+            }
+            else
+            {
+                error = "Warehouse product does not exist!";
+                success = String.Empty;
+            }
+        }
+        else if (warehouseProduct.storeId > 0 && warehouseProduct.productId > 0 && orderProduct.orderCount>0)
+        {
+            error = "StoreId, Order Count and/or ProductId cannot be a negative number!";
+        }
+        else
+        {
+            error = "All fields must be filled out!";
+            success = String.Empty;
+        }
+
+
+    }
+    private bool ItemSame()
+    {
+        foreach (var p in allWarehouseProducts)
+        {
+
+            if (warehouseProduct.equals(p))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/warehouse");
+    }
+
+
+
+}

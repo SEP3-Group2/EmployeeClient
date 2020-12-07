@@ -21,7 +21,6 @@ namespace EmployeeClient.Data
         {
             string message = await client.GetStringAsync(uri + "/wpjoin");
             List<WPJoin> returnList = JsonSerializer.Deserialize<List<WPJoin>>(message);
-            Console.WriteLine(returnList.ToString()); 
 
             return returnList;
         }

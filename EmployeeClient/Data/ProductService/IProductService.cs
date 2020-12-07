@@ -13,6 +13,7 @@ namespace EmployeeClient.Data
         Task<List<Product>> GetAllProductsAsync();
         Task<IList<Product>> GetTitleCategoryPriceFilteredProductsAsync(string title, string category, string price);
         Task<Product> GetProductByIdAsync(int id);
+        Task ModifyProductAsync(Product product);
         void setProductId(int id);
         int getProductId();
     }

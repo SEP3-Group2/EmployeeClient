@@ -9,12 +9,15 @@
         <div class="navbar-nav">
 
             <a class="nav-item nav-link" href=""> Home </a>
-
+           
             <AuthorizeView Policy="SecurityLevel3">
                 <a class="nav-link" href="warehouse" Match="NavLinkMatch.All"> Warehouse </a>
             </AuthorizeView>
 
             <a href="products" class="nav-item nav-link">Products</a>
+            <AuthorizeView Policy="Securitylevel3">
+            <a href="ModifyProduct" class="nav-item nav-link">Modify product</a>
+            </AuthorizeView>
 
             <AuthorizeView Policy="Securitylevel4">
                 <a class=" nav-item nav-link" href="register"> Register </a>
