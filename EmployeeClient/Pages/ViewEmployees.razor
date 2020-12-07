@@ -1,0 +1,102 @@
+﻿@page "/employees"
+@using EmployeeClient.Models
+@using EmployeeClient.Data
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+
+
+<h3>ViewEmployees</h3>
+
+<div class="container">
+    <div class="row searchFilter">
+        <div class="col-12 col-md-8" style="padding:2.5px;">
+            <input id="table_filter" type="text" class="form-control" @bind-value="Name">
+        </div>
+        <div class="col-6 col-md-4" style="padding:2.5px;">
+            <select @bind="Store" class="btn btn-light" style="width:150px;">
+                <option disabled hidden>Select Store...</option>
+                <option>All</option>
+                <option>Horsens </option>
+                <option>Aalborg </option>
+                <option>Frederiksberg </option>
+            </select>
+            <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
+        </div>
+    </div>
+    <div>
+        <!--search-->
+    </div>
+</div>
+
+@if (employeesToShow == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else if (!employeesToShow.Any())
+{
+    <p>
+        <em>No items exist. </em>
+    </p>
+}
+
+else
+{
+    <div class="container">
+        <div class="row">
+            @foreach (var emp in employeesToShow)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <div>
+                        <div class="product-content">
+                                <h3 class="title"><a> @emp.Name</a></h3>
+                                <div><b>ID:</b> @emp.UserID</div>
+                                <div><b>Email: </b>@emp.Email</div>
+                                <div><b>Address: </b>@emp.Address</div>
+                                <div><b>Contact: </b>@emp.Contact</div>
+                                <div><b>Position: </b>@emp.Position</div>
+                                <div><b>Password: </b>@emp.Password</div>
+                                <div><b>Store ID: </b>@emp.StoreID</div>
+                                <div><b>Security Level: </b>@emp.SecurityLevel</div>
+                        </div>
+                        <ul style="list-style-type:none" class="userList">
+                            <li><a href="#" @onclick="() => TrClickedAtIndex(emp.UserID)"><i class="material-icons">visibility</i></a></li>
+                            <AuthorizeView Policy="Securitylevel3">
+                                <li><a href="#"> <i class="material-icons">settings </i></a></li>
+                            </AuthorizeView>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+
+    private IList<User> employeesToShow;
+    private IList<User> employees;
+
+    public string Name { get; set; }
+    public string Store { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await UserService.GetAllUsersAsync();
+        employeesToShow = employees;
+    }
+
+    private async Task ExecuteSearch()
+    {
+        //employeesToShow = await UserService.GetUserByFilters(filter args here);
+        //reset all filter args
+    }
+
+    public async Task TrClickedAtIndex(int id)
+    {
+        Console.WriteLine("Woof");
+        UserService.SetUserID(id);
+        NavigationManager.NavigateTo("/employee");
+    }
+}
