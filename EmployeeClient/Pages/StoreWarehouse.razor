@@ -1,8 +1,9 @@
 ﻿@page "/warehouse"
 @using EmployeeClient.Models
 @using EmployeeClient.Data
-@inject IWarehouseProductService WarehouseProductService;
-@inject IWPJoinService WPJoinService;
+@inject IWarehouseProductService WarehouseProductService
+@inject IWPJoinService WPJoinService
+@inject NavigationManager NavigationManager 
 <h3>StoreWarehouse</h3>
 <h1>Select Store</h1>
 <select class="form-control" @bind="store">
@@ -11,6 +12,9 @@
     <option>Aalborg</option>
     <option>Frederiksberg</option>
 </select>
+
+<button @onclick="NavigateToOrderFromManufacturer">Order product from manufacturer</button>
+<button @onclick="NavigateToOrderFromStore">Order product from store</button>
 @if (getChosenStoreId()==0)
 {
 <table class="table">
@@ -90,6 +94,7 @@ else
     {
         warehouseProducts = new List<WPJoin>();
         warehouseProducts = await WPJoinService.GetAllWPJoinAsync();
+
         horsensWarehouseProducts = new List<WPJoin>();
         horsensWarehouseProducts = await WPJoinService.GetStoreWPJoinAsync(1);
         aalborgWarehouseProducts = new List<WPJoin>();
@@ -98,7 +103,14 @@ else
         frederiksbergWarehouseProducts = await WPJoinService.GetStoreWPJoinAsync(3);
 
     }
-
+    private void NavigateToOrderFromStore()
+    {
+        NavigationManager.NavigateTo("/orderProduct");
+    }
+    private void NavigateToOrderFromManufacturer()
+    {
+        NavigationManager.NavigateTo("/orderP");
+    }
 
     private int getChosenStoreId()
     {

@@ -19,5 +19,15 @@ namespace EmployeeClient.Models
         {
             return JsonSerializer.Serialize(this);
         }
+
+        public bool equals(Object obj)
+        {
+            if(!(obj is WarehouseProduct))
+            {
+                return false;
+            }
+            WarehouseProduct other = (WarehouseProduct)obj;
+            return this.storeId.Equals(other.storeId) && this.productId.Equals(other.productId) && this.quantity.Equals(other.quantity);
+        }
     }
 }
