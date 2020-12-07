@@ -59,34 +59,35 @@
                                     <label><i class="material-icons"> perm_phone_msg </i> Phone Number:</label>
                                     <InputText class="form-control" @bind-Value="user.Contact" placeholder="Phone Number" required />
 
-                                    <label><i class="material-icons"> security </i> Security Level:</label> <br />
-                                    <select class="form-control" @bind="user.SecurityLevel" required>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-label-group">
-                                    <label><i class="material-icons"> event_seat </i> Position:</label>
-                                    <InputText type="text" class="form-control" @bind-Value="user.Position" placeholder="Position" required />
-
-                                    <label> <i class="material-icons"> local_convenience_store </i> Store ID:</label>
-                                    <select class="form-control" @bind="user.StoreID" required>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-
-                                    @if (loggedInUserPosition.Equals("HR") || loggedInUserID == UserService.GetUserID())
+                                    @if (loggedInUserPosition.Equals("HR"))
                                     {
+                                        <label><i class="material-icons"> security </i> Security Level:</label> <br />
+                                        <select class="form-control" @bind="user.SecurityLevel" required>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    }
+                                </div>
+                                @if (loggedInUserPosition.Equals("HR"))
+                                {
+                                    <div class="form-label-group">
+                                        <label><i class="material-icons"> event_seat </i> Position:</label>
+                                        <InputText type="text" class="form-control" @bind-Value="user.Position" placeholder="Position" required />
+
+                                        <label> <i class="material-icons"> local_convenience_store </i> Store ID:</label>
+                                        <select class="form-control" @bind="user.StoreID" required>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </select>
                                         <label><i class="material-icons"> lock </i> Password:</label>
                                         <InputText class="form-control" type="text" @bind-Value="@user.Password" placeholder="Password" required />
 
-                                        <Button type="button" class="btn btn-outline-danger btn-block text-uppercase" style="margin-left: .5rem;" @onclick="DeleteUser" >Delete Account</Button>
-                                    }
-                                </div>
+                                        <Button type="button" class="btn btn-outline-danger btn-block text-uppercase" style="margin-left: .5rem;" @onclick="DeleteUser">Delete Account</Button>
+                                    </div>
+                                }
 
                                 @if (!string.IsNullOrWhiteSpace(error))
                                 {
