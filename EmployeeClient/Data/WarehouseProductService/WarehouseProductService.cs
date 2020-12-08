@@ -76,5 +76,10 @@ namespace EmployeeClient.Data
 
             return returnList;
         }
+
+        public async Task UpdateWarehouseQuantity(int storeid, int productid, int quantity)
+        {
+            await client.GetStringAsync(uri + "/warehouseproducts/update/" + storeid + "/" + productid + "/" + quantity);
+        }
     }
 }

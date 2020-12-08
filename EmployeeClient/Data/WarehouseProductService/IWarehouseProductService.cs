@@ -16,5 +16,7 @@ namespace EmployeeClient.Data
         Task DecrementOrderQuantity(OrderProduct orderProduct);
         Task<List<WarehouseProduct>> GetWarehouseProductFromStoresById(WarehouseProduct warehouseProduct);
 
+        Task UpdateWarehouseQuantity(int storeid, int productid, int quantity);
+
     }
 }
