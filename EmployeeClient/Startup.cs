@@ -39,6 +39,9 @@ namespace EmployeeClient
             services.AddSingleton<IWarehouseProductService, WarehouseProductService>();
             services.AddSingleton<IWPJoinService, WPJoinService>();
             services.AddSingleton<IImagesService, ImagesService>();
+            services.AddSingleton<ITransactionProductService, TransactionProductService>();
+            services.AddSingleton<ITransactionService, TransactionService>();
+            services.AddSingleton<IWarehouseService, WarehouseService>();
 
             services.AddAuthorization(options =>
             {

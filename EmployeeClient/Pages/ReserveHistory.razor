@@ -1,0 +1,191 @@
+﻿@page "/reserveHistory"
+@using EmployeeClient.Models
+@using EmployeeClient.Data
+@using System.IO
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject ITransactionProductService TransactionProductService
+@inject ITransactionService TransactionService
+@inject IWarehouseService WarehouseService
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Policy = "SecurityLevel2")]
+
+<div class="container">
+    <div class="row searchFilter">
+
+        <div class="col-6 col-md-4" style="padding:2.5px;">
+            <select @bind="store" class="btn btn-light" style="width:150px;" required>
+                <option>All</option>
+                <option>Horsens </option>
+                <option>Aalborg </option>
+                <option>Frederiksberg</option>
+            </select>
+            <div class="col-12 col-md-8" style="padding:2.5px;">
+                <input id="table_filter" type="text" class="form-control" @bind-value="email">
+            </div>
+            <select @bind="deliveryMethod" class="btn btn-light" style="width:150px;" required>
+
+                <option>All</option>
+                <option>Delivered</option>
+                <option>Reserved</option>
+            </select>
+
+            <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Transaction ID</th>
+            <th>Store ID</th>
+            <th>Product Title</th>
+            <th>Quantity</th>
+            <th>Total price</th>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Delivery status</th>
+            <th>Change status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var transaction in historyToShow)
+        {
+            if (lastId != transaction.Transactionod)
+            {
+                lastId = transaction.Transactionod;
+                <tr class="rowsToColor">
+                    <td>@transaction.Transactionod</td>
+                    <td>@transaction.Storeid</td>
+
+                    <td>
+                        @foreach (var product in historyToShow)
+                        {
+                            if (lastId == product.Transactionod)
+                            {
+                        <tr>@product.Title</tr>
+                    }
+
+
+                }
+                        </td>
+
+                    <td>
+                        @foreach (var product in historyToShow)
+                        {
+                            if (lastId == product.Transactionod)
+                            {
+                            <tr>@product.Quantity</tr>
+                        }
+
+
+                    }
+                        </td>
+
+                        <td>@transaction.Totalprice </td>
+                        <td>@transaction.Customername </td>
+                        <td>@transaction.Email </td>
+                        <td>@transaction.Deliverymethod </td>
+                        @if (transaction.Deliverymethod.Equals("Under preparation"))
+                        {
+                            <td>
+                                <button @onclick="() => ChangeToReady(transaction.Transactionod)">
+                                    <i class="oi oi-bell" style="color:red" />
+                                </button>
+                            </td>
+                        }
+                        @if (transaction.Deliverymethod.Equals("Ready for pickup"))
+                        {
+                            <td>
+                                <button @onclick="() => ChangeToDelivery(transaction.Transactionod,transaction.Storeid,transaction.ProductId,transaction.Quantity)">
+                                    <i class="oi oi-check" style="color:red" />
+                                </button>
+                            </td>
+                        }
+
+
+                        </tr>
+                    }
+                }
+        </tbody>
+    </table>
+
+
+
+    @code {
+        List<EmployeeClient.Models.ReserveHistory> allHistory = new List<EmployeeClient.Models.ReserveHistory>();
+        List<EmployeeClient.Models.ReserveHistory> historyToShow = new List<EmployeeClient.Models.ReserveHistory>();
+
+        int lastId = 0;
+        string store = "";
+        string deliveryMethod = "";
+
+        int storeid = 0;
+        string email = "";
+        string delivery = "";
+
+        int transactionid = 0;
+
+        protected override async Task OnInitializedAsync()
+        {
+            allHistory = await TransactionProductService.getAllReserveHistory();
+            historyToShow = allHistory;
+        }
+
+        private async Task ExecuteSearch()
+        {
+            if (store.Equals("All"))
+            {
+                storeid = 0;
+            }
+            if (store.Equals("Horsens"))
+            {
+                storeid = 1;
+            }
+            if (store.Equals("Aalborg"))
+            {
+                storeid = 2;
+            }
+            if (store.Equals("Frederiksberg"))
+            {
+                storeid = 3;
+            }
+
+            if (deliveryMethod.Equals("Delivered"))
+            {
+                delivery = "Delivered";
+            }
+            if (deliveryMethod.Equals("Reserved"))
+            {
+                delivery = "U";
+            }
+            if (deliveryMethod.Equals("All"))
+            {
+                delivery = "e";
+            }
+
+
+            if (email.Equals("") || email == null)
+            {
+
+                historyToShow = await TransactionProductService.getReserveHistoryByStoreEmail(storeid, delivery);
+            }
+            else
+            {
+                historyToShow = await TransactionProductService.getReserveHistoryByStoreEmailDelivery(storeid, email, delivery);
+            }
+        }
+
+        public async Task ChangeToReady(int id)
+        {
+            await TransactionService.UpdateToReady(id);
+        }
+
+        public async Task ChangeToDelivery(int id, int storeid, int productid, int quantity)
+        {
+            await WarehouseService.UpdateWarehouseQuantity(storeid, productid, quantity);
+            await TransactionService.UpdateToDelivered(id);
+        }
+
+    }
