@@ -73,12 +73,13 @@
                             </div>
 
                         </form>
-                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Create</button>
+                        <div class="form-label-group">
+                            <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Create</button>
+                        </div>
                     </div>
-                   
                 </div>
             </div>
-            
+
         </div>
 
     </div>
@@ -113,7 +114,7 @@
         message = String.Empty;
 
         var maxAllowedFiles = 10;
-        if(e.GetMultipleFiles().Count >= 2)
+        if (e.GetMultipleFiles().Count >= 2)
         {
             error = String.Empty;
         }
