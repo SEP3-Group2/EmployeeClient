@@ -89,25 +89,19 @@
                         <td>@transaction.Email </td>
                         <td>@transaction.Deliverymethod </td>
                         <td>
-                            @if (transaction.Deliverymethod.Equals("Under preparation"))
+                            @if (transaction.Deliverymethod.Equals("under preparation"))
                             {
-
                                 <button class="btn-warning" style="border: none; width:130px;" @onclick="() => ChangeToReady(transaction.Transactionod)">
                                     <i class="material-icons" style=" padding: 0;">notifications_active</i> Is prepared
                                 </button>
-
-
                             }
 
                             @if (transaction.Deliverymethod.Equals("Ready for pickup"))
                             {
-
                                 <button class="btn btn-success" style=" border: none; width:130px;" @onclick="() => ChangeToDelivery(transaction.Transactionod,transaction.Storeid,transaction.ProductId,transaction.Quantity)">
                                     <i class="material-icons">done_outline</i> Deliverd
                                 </button>
-
                             }
-
                         </td>
 
 
@@ -165,7 +159,7 @@
             }
             if (deliveryMethod.Equals("Reserved"))
             {
-                delivery = "U";
+                delivery = "u";
             }
             if (deliveryMethod.Equals("All"))
             {
@@ -187,12 +181,14 @@
         public async Task ChangeToReady(int id)
         {
             await TransactionService.UpdateToReady(id);
+            await ExecuteSearch();
         }
 
         public async Task ChangeToDelivery(int id, int storeid, int productid, int quantity)
         {
             await WarehouseService.UpdateWarehouseQuantity(storeid, productid, quantity);
             await TransactionService.UpdateToDelivered(id);
+            await ExecuteSearch();
         }
 
     }
