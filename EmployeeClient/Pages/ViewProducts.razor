@@ -67,33 +67,48 @@ else
     <div class="container">
         <div class="row">
             @foreach (var product in productsToShow)
-            {
-                <div class="col-md-3 col-sm-6">
+            {<div class="col-md-3 col-sm-6">
                     <div class="product-grid">
                         <div class="product-image">
-
                             <a href="#" @onclick="() => TrClickedAtIndex(product.Id)">
-                                @if (!(productCount >= productsToShow.Count * 2))
-                                {
-                                    <img class="pic-1" src="@images[productCount]" />
-                                    if (true)
-                                    {
-                                        productCount++;
-                                    }
-                                    <img class="pic-2" src="@images[productCount]" />
-                                    if (true)
-                                    {
-                                        productCount++;
-                                    }
-                                }
+                                    <img class="pic-1" src="../css/ps4.PNG" />
+
+                                    <img class="pic-2" src="../css/ps4-pro-1tb.jpg" />
                             </a>
                             <ul class="social">
                                 <li><a href="#" @onclick="() => TrClickedAtIndex(product.Id)"><i class="material-icons">visibility</i></a></li>
                                 <AuthorizeView Policy="Securitylevel3">
-                                    <li><a href="#"> <i class="material-icons">settings </i></a></li>
+                                    <li><a href="#" @onclick="() => TrClickedAtIndex2(product.Id)"> <i class="material-icons">settings </i></a></li>
                                 </AuthorizeView>
                             </ul>
                         </div>
+
+                        <!--<div class="col-md-3 col-sm-6">
+                        <div class="product-grid">
+                            <div class="product-image">
+
+                                <a href="#" @onclick="() => TrClickedAtIndex(product.Id)">
+                                    @if (!(productCount >= productsToShow.Count * 2))
+                                    {
+                                        <img class="pic-1" src="@images[productCount]" />
+                                        if (true)
+                                        {
+                                            productCount++;
+                                        }
+                                        <img class="pic-2" src="@images[productCount]" />
+                                        if (true)
+                                        {
+                                            productCount++;
+                                        }
+                                    }
+                                </a>
+                                <ul class="social">
+                                    <li><a href="#" @onclick="() => TrClickedAtIndex(product.Id)"><i class="material-icons">visibility</i></a></li>
+                                    <AuthorizeView Policy="Securitylevel3">
+                                        <li><a href="#" @onclick="() => TrClickedAtIndex(product.Id)"> <i class="material-icons">settings </i></a></li>
+                                    </AuthorizeView>
+                                </ul>
+                            </div>-->
                         <div class="product-content">
                             <h3 class="title"><a> @product.Title</a></h3>
                             <div class="price">
@@ -134,12 +149,12 @@ else
         products = await ProductService.GetAllProductsAsync();
         productsToShow = products;
 
-        FillImagesWithPlaceholders();
+        /*FillImagesWithPlaceholders();
 
         foreach (var product in productsToShow)
         {
             await GetImagesFromID(product.Id);
-        }
+        }*/
     }
     //filters here
     private async Task ExecuteSearch()
@@ -164,6 +179,11 @@ else
     {
         ProductService.setProductId(id);
         NavigationManager.NavigateTo("/ProductView");
+    }
+    public async Task TrClickedAtIndex2(int id)
+    {
+        ProductService.setProductId(id);
+        NavigationManager.NavigateTo("/ModifyProduct");
     }
 
 

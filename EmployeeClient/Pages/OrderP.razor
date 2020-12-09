@@ -6,43 +6,52 @@
 @inject NavigationManager NavigationManager
 
 
-<h3>Order Product From Manufacturer</h3>
+<div class="container">
 
+    <div class="row">
+        <div class="col-sm-9 col-md-7  mx-auto">
+            <div class="card card-addProduct my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Order Product From Manufacturer</h5>
+                    <div class="form-addProduct">
+                        <div class="form-label-group">
+                            <label for="storeId">StoreId:</label>
+                            <input class="form-control" @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
 
-<label for="storeId">StoreId:</label>
-<input @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
-<br>
-<br>
-<label for="productId">ProductId:</label>
-<input @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
-<br>
-<br>
-<label for="quantity">Quantity:</label>
-<input @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
-<br>
-<br>
-<label for="orderCount">OrderCount:</label>
-<input @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
-<br>
-<br>
-<button @onclick="OrderProductsFromManufacturer" type="button">Order</button>
-<button @onclick="NavigateBack">Back</button>
+                            <label for="productId">ProductId:</label>
+                            <input class="form-control" @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
 
-@if (!string.IsNullOrWhiteSpace(error))
-{
-    <div class="alert alert-danger" role="alert">
-        @error
+                            <label for="quantity">Quantity:</label>
+                            <input class="form-control"  @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
+
+                            <label for="orderCount">OrderCount:</label>
+                            <input class="form-control" @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
+
+                        </div>
+
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(error))
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @error
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(success))
+                    {
+                        <div class="alert alert-success" role="alert">
+                            @success
+                        </div>
+                    }
+
+                    <button class="btn btn-success text-uppercase" @onclick="OrderProductsFromManufacturer" type="button">Order</button>
+                    <button class="btn btn-primary text-uppercase" @onclick="NavigateBack">Back</button>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-}
-@if (!string.IsNullOrWhiteSpace(success))
-{
-    <div class="alert alert-success" role="alert">
-        @success
-    </div>
-}
-
-
-
+</div>
 
 
 @code {
@@ -86,7 +95,7 @@
                 success = String.Empty;
             }
         }
-        else if (warehouseProduct.storeId > 0 && warehouseProduct.productId > 0 && orderProduct.orderCount>0)
+        else if (warehouseProduct.storeId > 0 && warehouseProduct.productId > 0 && orderProduct.orderCount > 0)
         {
             error = "StoreId, Order Count and/or ProductId cannot be a negative number!";
         }

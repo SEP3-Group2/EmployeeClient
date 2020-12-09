@@ -6,104 +6,162 @@
 @attribute [Authorize(Policy = "SecurityLevel3")]
 
 
-<h3>Modify Product</h3>
-
 <EditForm Model="@product" OnValidSubmit="@MProduct">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
     <div class="container">
-
         <div class="row">
             <div class="col-sm-9 col-md-7  mx-auto">
                 <div class="card card-addProduct my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Modify Product</h5>
 
-                        <form class="form-addProduct">
+                        <div class="form-addProduct">
                             <div class="form-label-group">
-                                <label> <i class="material-icons"> perm_identity </i>Id:</label>
-                                <InputNumber class="form-control" @bind-Value="product.Id" placeholder="Id" required />
-                                <label> <i class="material-icons"> category </i> Select attribute:</label>
-                                <select class="form-control" @bind="attribute">
-                                    <option selected disabled hidden>Attribute</option>
-                                    <option>Title</option>
-                                    <option>Category</option>
-                                    <option>Description</option>
-                                    <option>Price</option>
-
+                                <label> <i class="material-icons"> title </i>Title:</label>
+                                <InputText class="form-control" @bind-Value="product.Title" placeholder="Title" required />
+                                <label> <i class="material-icons"> category </i> Category:</label>
+                                <select class="form-control" @bind="product.Category" required>
+                                    <option selected disabled hidden>Category</option>
+                                    <option>Console </option>
+                                    <option>Game </option>
+                                    <option>PC Component</option>
+                                    <option>Laptop </option>
+                                    <option>TV </option>
+                                    <option>Media Player</option>
+                                    <option>Movie </option>
+                                    <option>Speaker </option>
+                                    <option>Kitchen Appliance </option>
+                                    <option>Iron </option>
+                                    <option>Camera </option>
+                                    <option>Phone </option>
+                                    <option>Smart watch</option>
+                                    <option>Headphones </option>
+                                    <option>Electric scooter</option>
+                                    <option>Air Condtion</option>
+                                    <option>Drones </option>
                                 </select>
-                                @if (attribute.Equals("Title"))
-                                {
-                                    <label> <i class="material-icons"> title </i>Title:</label>
-                                    <InputText class="form-control" @bind-Value="product.Title" placeholder="Title" />
-                                }
-                                @if (attribute.Equals("Category"))
-                                {
-                                    <label> <i class="material-icons"> category </i> Category:</label>
-                                    <select class="form-control" @bind="product.Category">
-                                        <option selected disabled hidden>Category</option>
-                                        <option>Console </option>
-                                        <option>Game </option>
-                                        <option>PC Component</option>
-                                        <option>Laptop </option>
-                                        <option>TV </option>
-                                        <option>Media Player</option>
-                                        <option>Movie </option>
-                                        <option>Speaker </option>
-                                        <option>Kitchen Appliance </option>
-                                        <option>Iron </option>
-                                        <option>Camera </option>
-                                        <option>Phone </option>
-                                        <option>Smart watch</option>
-                                        <option>Headphones </option>
-                                        <option>Electric scooter</option>
-                                        <option>Air Condtion</option>
-                                        <option>Drones </option>
-                                    </select>
-                                }
-                                @if (attribute.Equals("Description"))
-                                {
-                                    <label> <i class="material-icons"> article </i> Description:</label>
-                                    <InputText class="form-control" @bind-Value="product.Description" placeholder="Description" />
-                                }
-                                @if (attribute.Equals("Price"))
-                                {
-                                    <label> <i class="material-icons"> monetization_on </i> Price: </label>
-                                    <InputNumber class="form-control" @bind-Value="product.Price" />
-                                }
 
 
-                                @if (!string.IsNullOrWhiteSpace(error))
-                                {
-                                    <div class="alert alert-danger">
-                                        @error
-                                    </div>
-                                }
-                                @if (!string.IsNullOrWhiteSpace(message))
-                                {
-                                    <div class="alert alert-success">
-                                        @message
-                                    </div>
-                                }
+                                <label> <i class="material-icons"> article </i> Description:</label>
+                                <InputText class="form-control" @bind-Value="product.Description" placeholder="Description" required />
+
+                                <label> <i class="material-icons"> monetization_on </i> Price: </label>
+                                <InputNumber class="form-control" @bind-Value="product.Price" required />
+
                             </div>
 
-                        </form>
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(message))
+                        {
+                            <div class="alert alert-success">
+                                @message
+                            </div>
+                        }
                         <div class="form-label-group">
                             <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Modify</button>
                         </div>
                     </div>
-
                 </div>
             </div>
 
         </div>
 
     </div>
+    <!-- <div class="container">
+
+         <div class="row">
+             <div class="col-sm-9 col-md-7  mx-auto">
+                 <div class="card card-addProduct my-5">
+                     <div class="card-body">
+                         <h5 class="card-title text-center">Modify Product</h5>
+
+                         <div class="form-addProduct">
+                             <div class="form-label-group">
+                                 <label> <i class="material-icons"> perm_identity </i>Id:</label>
+                                 <InputNumber class="form-control" @bind-Value="product.Id" placeholder="Id" required />
+                                 <label> <i class="material-icons"> category </i> Select attribute:</label>
+                                 <select class="form-control" @bind="attribute">
+                                     <option selected disabled hidden>Attribute</option>
+                                     <option>Title</option>
+                                     <option>Category</option>
+                                     <option>Description</option>
+                                     <option>Price</option>
+
+                                 </select>
+                                 @if (attribute.Equals("Title"))
+                                 {
+                                     <label> <i class="material-icons"> title </i>Title:</label>
+                                     <InputText class="form-control" @bind-Value="product.Title" placeholder="Title" required />
+                                 }
+                                 @if (attribute.Equals("Category"))
+                                 {
+                                     <label> <i class="material-icons"> category </i> Category:</label>
+                                     <select class="form-control" @bind="product.Category" required>
+                                         <option selected disabled hidden>Category</option>
+                                         <option>Console </option>
+                                         <option>Game </option>
+                                         <option>PC Component</option>
+                                         <option>Laptop </option>
+                                         <option>TV </option>
+                                         <option>Media Player</option>
+                                         <option>Movie </option>
+                                         <option>Speaker </option>
+                                         <option>Kitchen Appliance </option>
+                                         <option>Iron </option>
+                                         <option>Camera </option>
+                                         <option>Phone </option>
+                                         <option>Smart watch</option>
+                                         <option>Headphones </option>
+                                         <option>Electric scooter</option>
+                                         <option>Air Condtion</option>
+                                         <option>Drones </option>
+                                     </select>
+                                 }
+                                 @if (attribute.Equals("Description"))
+                                 {
+                                     <label> <i class="material-icons"> article </i> Description:</label>
+                                     <InputText class="form-control" @bind-Value="product.Description" placeholder="Description" required/>
+                                 }
+                                 @if (attribute.Equals("Price"))
+                                 {
+                                     <label> <i class="material-icons"> monetization_on </i> Price: </label>
+                                     <InputNumber class="form-control" @bind-Value="product.Price" required />
+                                 }
+
+
+                                 @if (!string.IsNullOrWhiteSpace(error))
+                                 {
+                                     <div class="alert alert-danger">
+                                         @error
+                                     </div>
+                                 }
+                                 @if (!string.IsNullOrWhiteSpace(message))
+                                 {
+                                     <div class="alert alert-success">
+                                         @message
+                                     </div>
+                                 }
+                             </div>
+
+                         </div>
+                         <div class="form-label-group">
+                             <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Modify</button>
+                         </div>
+                     </div>
+
+                 </div>
+             </div>
+
+         </div>
+
+     </div> -->
 
 </EditForm>
 
 @code {
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
     string message = String.Empty;
     string error = String.Empty;
     private Product product = new Product();
@@ -113,98 +171,94 @@
 
     protected async override Task OnInitializedAsync()
     {
+        product = await ProductService.GetProductByIdAsync(ProductService.getProductId());
         allProducts = new List<Product>();
         allProducts = await ProductService.GetAllProductsAsync();
-        product.Title = String.Empty;
-        product.Category = String.Empty;
-        product.Description = String.Empty;
-        product.Price = 0;
+
     }
 
     private async Task MProduct()
+    {/*
+    if (product.Id <= 0)
     {
-        if (product.Id <= 0)
-        {
-            error = "Invalid Id!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals("Title") && product.Title.Equals(""))
-        {
-            error = "Title must not be empty!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals("Category") && product.Category.Equals(""))
-        {
-            error = "You must select a category!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals("Description") && product.Description.Equals(""))
-        {
-            error = "Description must not be empty!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals("Price") && product.Price == 0)
-        {
-            error = "Price must not be 0!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals(""))
-        {
-            error = "You have to choose which attribute to modify!";
-            message = String.Empty;
-        }
-        else if (!existProduct())
-        {
-            error = "No product with this id exists!";
-            message = String.Empty;
-        }
-        else if (attribute.Equals("Description") && product.Description.Length > 300)
-        {
-            error = "Max description length is 300 characters!";
-            message = String.Empty;
-        }
-        else
-        {
-            if (attribute.Equals("Title"))
-            {
-                product.Category = productFromDatabase.Category;
-                product.Description = productFromDatabase.Description;
-                product.Price = productFromDatabase.Price;
-            }
-            if (attribute.Equals("Category"))
-            {
-                product.Title = productFromDatabase.Title;
-                product.Description = productFromDatabase.Description;
-                product.Price = productFromDatabase.Price;
-            }
-            if (attribute.Equals("Description"))
-            {
-                product.Title = productFromDatabase.Title;
-                product.Category = productFromDatabase.Category;
-                product.Price = productFromDatabase.Price;
-            }
-            if (attribute.Equals("Price"))
-            {
-                product.Title = productFromDatabase.Title;
-                product.Category = productFromDatabase.Category;
-                product.Description = productFromDatabase.Description;
-            }
-            error = String.Empty;
-            message = "Modification was successful";
-            await ProductService.ModifyProductAsync(product);
-        }
+        error = "Invalid Id!";
+        message = String.Empty;
     }
-    private bool existProduct()
+    else if (attribute.Equals("Title") && product.Title.Equals(""))
     {
-        foreach (var p in allProducts)
-        {
-            if (product.Id == p.Id)
-            {
-                productFromDatabase = p;
-                return true;
-            }
-        }
-        return false;
+        error = "Title must not be empty!";
+        message = String.Empty;
     }
-
+    else if (attribute.Equals("Category") && product.Category.Equals(""))
+    {
+        error = "You must select a category!";
+        message = String.Empty;
+    }
+    else if (attribute.Equals("Description") && product.Description.Equals(""))
+    {
+        error = "Description must not be empty!";
+        message = String.Empty;
+    }
+    else if (attribute.Equals("Price") && product.Price == 0)
+    {
+        error = "Price must not be 0!";
+        message = String.Empty;
+    }
+    else if (attribute.Equals(""))
+    {
+        error = "You have to choose which attribute to modify!";
+        message = String.Empty;
+    }
+    else if (!existProduct())
+    {
+        error = "No product with this id exists!";
+        message = String.Empty;
+    }
+    else if (attribute.Equals("Description") && product.Description.Length > 300)
+    {
+        error = "Max description length is 300 characters!";
+        message = String.Empty;
+    }
+    else
+    {
+        if (attribute.Equals("Title"))
+        {
+            product.Category = productFromDatabase.Category;
+            product.Description = productFromDatabase.Description;
+            product.Price = productFromDatabase.Price;
+        }
+        if (attribute.Equals("Category"))
+        {
+            product.Title = productFromDatabase.Title;
+            product.Description = productFromDatabase.Description;
+            product.Price = productFromDatabase.Price;
+        }
+        if (attribute.Equals("Description"))
+        {
+            product.Title = productFromDatabase.Title;
+            product.Category = productFromDatabase.Category;
+            product.Price = productFromDatabase.Price;
+        }
+        if (attribute.Equals("Price"))
+        {
+            product.Title = productFromDatabase.Title;
+            product.Category = productFromDatabase.Category;
+            product.Description = productFromDatabase.Description;
+        }*/
+        error = String.Empty;
+        message = "Modification was successful";
+        await ProductService.ModifyProductAsync(product);
+    }
+    /* private bool existProduct()
+     {
+         foreach (var p in allProducts)
+         {
+             if (product.Id == p.Id)
+             {
+                 productFromDatabase = p;
+                 return true;
+             }
+         }
+         return false;*/
 }
+
