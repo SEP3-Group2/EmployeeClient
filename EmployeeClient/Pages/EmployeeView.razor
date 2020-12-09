@@ -16,10 +16,11 @@
                 <div class="card card-register">
                     <div class="card-body">
                         <h5 class="card-title text-center">Employee Information</h5>
-                        <form class="form-register">
 
-                            @if (loggedInUserID != UserService.GetUserID() && !(loggedInUserPosition.Equals("HR")))
-                            {
+
+                        @if (loggedInUserID != UserService.GetUserID() && !(loggedInUserPosition.Equals("HR")))
+                        {
+                            <form class="form-register">
                                 <div class="form-label-group">
                                     <label><i class="material-icons"> email </i> Email: </label> <br />
                                     <textarea class="form-control" readonly placeholder="Email" rows="1" style="resize:none;">@user.Email</textarea>
@@ -42,9 +43,11 @@
                                     <label><i class="material-icons"> security </i> Employee ID: </label> <br />
                                     <textarea class="form-control" readonly placeholder="Employee ID" rows="1" style="resize:none;">@user.UserID</textarea>
                                 </div>
-                            }
-                            else
-                            {
+                            </form>
+                        }
+                        else
+                        {
+                            <form class="form-register">
                                 <div class="form-label-group">
 
                                     <label><i class="material-icons"> email </i> Email: </label>
@@ -85,8 +88,8 @@
                                         <label><i class="material-icons"> lock </i> Password:</label>
                                         <InputText class="form-control" type="text" @bind-Value="@user.Password" placeholder="Password" required />
 
-                                        <Button type="button" class="btn btn-outline-danger btn-block text-uppercase" style="margin-left: .5rem;" @onclick="DeleteUser">Delete Account</Button>
                                     </div>
+
                                 }
 
                                 @if (!string.IsNullOrWhiteSpace(error))
@@ -101,9 +104,16 @@
                                         @message
                                     </div>
                                 }
-                            }
-                        </form>
-                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="margin-left: .5rem;">Update</button>
+
+                            </form>
+                           <p ><button type="button" class="btn btn-outline-danger  text-uppercase" style="margin-left:1rem;"  @onclick="DeleteUser">Delete Account</button> 
+                                <button class="btn btn-outline-success text-uppercase" type="submit">Update</button>
+                            </p> 
+                           
+                                
+                            
+                        }
+
                     </div>
                 </div>
 

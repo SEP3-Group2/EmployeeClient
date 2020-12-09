@@ -3,88 +3,108 @@
 @using EmployeeClient.Data
 @inject IWarehouseProductService WarehouseProductService
 @inject IWPJoinService WPJoinService
-@inject NavigationManager NavigationManager 
-<h3>StoreWarehouse</h3>
-<h1>Select Store</h1>
-<select class="form-control" @bind="store">
-    <option disabled hidden>Category</option>
+@inject NavigationManager NavigationManager
+
+
+
+<i class="material-icons"> store </i> Select Store:
+<select class="btn-dark" style="padding: 5px; width:337px; " @bind="store">
+    <option selected disabled hidden>Select Store..</option>
     <option>Horsens</option>
     <option>Aalborg</option>
     <option>Frederiksberg</option>
 </select>
 
-<button @onclick="NavigateToOrderFromManufacturer">Order product from manufacturer</button>
-<button @onclick="NavigateToOrderFromStore">Order product from store</button>
-@if (getChosenStoreId()==0)
+
+<div>
+    <button class="btn btn-outline-success" @onclick="NavigateToOrderFromStore"><i class="material-icons"> store </i>Order product from store</button>
+    <button class="btn btn-outline-success" @onclick="NavigateToOrderFromManufacturer"> <i class="material-icons"> business </i>Order product from manufacturer</button>
+
+</div>
+
+
+
+
+
+@if (getChosenStoreId() == 0)
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>StoreId</th>
-            <th>ProductId</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in warehouseProducts)
-        {
-        <tr>
-            <td>@product.warehouseProduct.storeId</td>
-            <td>@product.warehouseProduct.productId</td>
-            <td>@product.warehouseProduct.quantity</td>
-            <td>@product.product.Title</td>
-            <td>@product.product.Category</td>
-            <td>@product.product.Price</td>
+    <table class="table cartTable">
+        <thead class="cartThead">
+            <tr>
+                <th>StoreId</th>
+                <th>ProductId</th>
+                <th>Quantity</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+
+            </tr>
+        </thead>
+        <tbody class="cartTbody">
+            @foreach (var product in warehouseProducts)
+            {
+                <tr>
+                    <td>@product.warehouseProduct.storeId</td>
+                    <td>@product.warehouseProduct.productId</td>
+                    <td>@product.warehouseProduct.quantity</td>
+                    <td>@product.product.Title</td>
+                    <td>@product.product.Category</td>
+                    <td>@product.product.Price</td>
 
 
-        </tr>
-        }
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
 
-    if(getChosenStoreId()==1)
+    if (getChosenStoreId() == 1)
     {
         storeWarehouseProducts = horsensWarehouseProducts;
-    }else if (getChosenStoreId() == 2)
+    }
+    else if (getChosenStoreId() == 2)
     {
         storeWarehouseProducts = aalborgWarehouseProducts;
-    }else if (getChosenStoreId() == 3)
+    }
+    else if (getChosenStoreId() == 3)
     {
         storeWarehouseProducts = frederiksbergWarehouseProducts;
     }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>StoreId</th>
-            <th>ProductId</th>
-            <th>Quantity</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in storeWarehouseProducts)
-        {
-        <tr>
-            <td>@product.warehouseProduct.storeId</td>
-            <td>@product.warehouseProduct.productId</td>
-            <td>@product.warehouseProduct.quantity</td>
-            <td>@product.product.Title</td>
-            <td>@product.product.Category</td>
-            <td>@product.product.Price</td>
-        </tr>
-        }
-    </tbody>
-</table>
+    <table class="table cartTable">
+        <thead class="cartThead">
+            <tr>
+                <th>StoreId</th>
+                <th>ProductId</th>
+                <th>Quantity</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody class="cartTbody">
+            @foreach (var product in storeWarehouseProducts)
+            {
+                <tr>
+                    <td>@product.warehouseProduct.storeId</td>
+                    <td>@product.warehouseProduct.productId</td>
+                    <td>@product.warehouseProduct.quantity</td>
+                    <td>@product.product.Title</td>
+                    <td>@product.product.Category</td>
+                    <td>@product.product.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
-}
+    }
 
 
 @code {
 
-    private String store="";
+    private String store = "";
     private List<WPJoin> warehouseProducts;
     private List<WPJoin> storeWarehouseProducts = new List<WPJoin>();
     private List<WPJoin> horsensWarehouseProducts;

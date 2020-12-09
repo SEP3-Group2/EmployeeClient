@@ -135,7 +135,7 @@ card-register, card-login {
 }
 
 
-.btn-outline-success {
+.form-label-group .btn-outline-success {
     font-size: 90%;
     border-radius: 2rem;
     font-weight: bold;
@@ -144,24 +144,20 @@ card-register, card-login {
     margin: 1rem;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    
 }
 
-.btn-outline-danger{
+.form-label-group .btn-outline-danger {
     font-size: 90%;
     border-radius: 2rem;
     font-weight: bold;
     transition: all 0.5s;
-    width:120px;
-}
-.btn-warning, .btn-primary {
-    border-radius: 1rem;
+    width: 120px;
 }
 
-.btn-outline-dark {
+
+.btn-warning, .btn-outline-primary, .btn-primary, .btn-outline-success, .btn-dark, .btn-outline-danger {
     font-size: 90%;
     border-radius: 2rem;
-    font-weight: bold;
     transition: all 0.5s;
 }
 
@@ -171,7 +167,7 @@ card-register, card-login {
     margin-right: 1.5rem;
 }
 
-    .form-label-group input, .form-label-group select, .form-label-group InputTextArea {
+    .form-label-group input, .form-label-group select, .form-label-group InputTextArea, .form-label-group textarea {
         height: auto;
         padding: 1rem;
         border-radius: 2rem;
@@ -414,7 +410,36 @@ card-register, card-login {
 }
 
 
+/*TableView*/
+.cartTable {
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 10px;
+}
 
+
+.cartThead tr {
+    background-color: goldenrod;
+    color: white;
+    text-align: left;
+}
+
+.cartTbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
+}
+
+.cartTbody tr:nth-of-type(even) {
+    background-color: #e6e6e6;
+}
+
+.cartTable p {
+    margin: 1rem;
+}
 
 
 

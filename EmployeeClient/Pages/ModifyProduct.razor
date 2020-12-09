@@ -31,46 +31,46 @@
                                     <option>Category</option>
                                     <option>Description</option>
                                     <option>Price</option>
-                                    
+
                                 </select>
                                 @if (attribute.Equals("Title"))
-                                {                                                            
-                                <label> <i class="material-icons"> title </i>Title:</label>
-                                <InputText class="form-control" @bind-Value="product.Title" placeholder="Title" />
+                                {
+                                    <label> <i class="material-icons"> title </i>Title:</label>
+                                    <InputText class="form-control" @bind-Value="product.Title" placeholder="Title" />
                                 }
                                 @if (attribute.Equals("Category"))
                                 {
-                                <label> <i class="material-icons"> category </i> Category:</label>
-                                <select class="form-control" @bind="product.Category">
-                                    <option selected disabled hidden>Category</option>
-                                    <option>Console </option>
-                                    <option>Game </option>
-                                    <option>PC Component</option>
-                                    <option>Laptop </option>
-                                    <option>TV </option>
-                                    <option>Media Player</option>
-                                    <option>Movie </option>
-                                    <option>Speaker </option>
-                                    <option>Kitchen Appliance </option>
-                                    <option>Iron </option>
-                                    <option>Camera </option>
-                                    <option>Phone </option>
-                                    <option>Smart watch</option>
-                                    <option>Headphones </option>
-                                    <option>Electric scooter</option>
-                                    <option>Air Condtion</option>
-                                    <option>Drones </option>
-                                </select>
+                                    <label> <i class="material-icons"> category </i> Category:</label>
+                                    <select class="form-control" @bind="product.Category">
+                                        <option selected disabled hidden>Category</option>
+                                        <option>Console </option>
+                                        <option>Game </option>
+                                        <option>PC Component</option>
+                                        <option>Laptop </option>
+                                        <option>TV </option>
+                                        <option>Media Player</option>
+                                        <option>Movie </option>
+                                        <option>Speaker </option>
+                                        <option>Kitchen Appliance </option>
+                                        <option>Iron </option>
+                                        <option>Camera </option>
+                                        <option>Phone </option>
+                                        <option>Smart watch</option>
+                                        <option>Headphones </option>
+                                        <option>Electric scooter</option>
+                                        <option>Air Condtion</option>
+                                        <option>Drones </option>
+                                    </select>
                                 }
                                 @if (attribute.Equals("Description"))
                                 {
-                                <label> <i class="material-icons"> article </i> Description:</label>
-                                <InputText class="form-control" @bind-Value="product.Description" placeholder="Description" />
+                                    <label> <i class="material-icons"> article </i> Description:</label>
+                                    <InputText class="form-control" @bind-Value="product.Description" placeholder="Description" />
                                 }
                                 @if (attribute.Equals("Price"))
                                 {
-                                <label> <i class="material-icons"> monetization_on </i> Price: </label>
-                                <InputNumber class="form-control" @bind-Value="product.Price" />
+                                    <label> <i class="material-icons"> monetization_on </i> Price: </label>
+                                    <InputNumber class="form-control" @bind-Value="product.Price" />
                                 }
 
 
@@ -89,7 +89,9 @@
                             </div>
 
                         </form>
-                        <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Modify</button>
+                        <div class="form-label-group">
+                            <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Modify</button>
+                        </div>
                     </div>
 
                 </div>
@@ -112,7 +114,7 @@
     protected async override Task OnInitializedAsync()
     {
         allProducts = new List<Product>();
-        allProducts=await ProductService.GetAllProductsAsync();
+        allProducts = await ProductService.GetAllProductsAsync();
         product.Title = String.Empty;
         product.Category = String.Empty;
         product.Description = String.Empty;
@@ -121,11 +123,12 @@
 
     private async Task MProduct()
     {
-        if(product.Id<=0)
+        if (product.Id <= 0)
         {
             error = "Invalid Id!";
             message = String.Empty;
-        }else if(attribute.Equals("Title") && product.Title.Equals(""))
+        }
+        else if (attribute.Equals("Title") && product.Title.Equals(""))
         {
             error = "Title must not be empty!";
             message = String.Empty;
@@ -140,7 +143,7 @@
             error = "Description must not be empty!";
             message = String.Empty;
         }
-        else if (attribute.Equals("Price") && product.Price==0)
+        else if (attribute.Equals("Price") && product.Price == 0)
         {
             error = "Price must not be 0!";
             message = String.Empty;
@@ -155,7 +158,7 @@
             error = "No product with this id exists!";
             message = String.Empty;
         }
-        else if (attribute.Equals("Description") && product.Description.Length>300)
+        else if (attribute.Equals("Description") && product.Description.Length > 300)
         {
             error = "Max description length is 300 characters!";
             message = String.Empty;
