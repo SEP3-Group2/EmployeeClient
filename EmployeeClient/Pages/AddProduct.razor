@@ -9,7 +9,6 @@
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = "SecurityLevel3")]
 
-<h3>AddProduct</h3>
 
 <EditForm Model="@newProduct" OnValidSubmit="@AddNewProduct">
     <DataAnnotationsValidator />
@@ -23,7 +22,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Add New Product</h5>
 
-                        <form class="form-addProduct">
+                        <div class="form-addProduct">
                             <div class="form-label-group">
                                 <label> <i class="material-icons"> title </i>Title:</label>
                                 <InputText class="form-control" @bind-Value="newProduct.Title" placeholder="Title" required />
@@ -72,7 +71,7 @@
                                 }
                             </div>
 
-                        </form>
+                        </div>
                         <div class="form-label-group">
                             <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="max-width:565px;">Create</button>
                         </div>
@@ -151,6 +150,7 @@
             });
         }
     }
+   
 
     private async Task UploadImages()
     {
