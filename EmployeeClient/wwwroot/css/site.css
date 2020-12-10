@@ -43,7 +43,7 @@ body {
     }
 
         .navbar .navbar-brand b {
-            color: goldenrod;
+            color: #ffb03b;
         }
 
     .navbar a {
@@ -155,7 +155,7 @@ card-register, card-login {
 }
 
 
-.btn-warning, .btn-outline-primary, .btn-primary, .btn-outline-success, .btn-dark, .btn-outline-danger {
+.btn-warning, .btn-outline-warning, .btn-outline-primary, .btn-primary, .btn-outline-success, .btn-success, .btn-dark, .btn-outline-danger {
     font-size: 90%;
     border-radius: 2rem;
     transition: all 0.5s;
@@ -414,7 +414,7 @@ card-register, card-login {
 .cartTable {
     border-collapse: collapse;
     background: white;
-    border-radius: 10px;
+    border-radius: 1rem;
     overflow: hidden;
     width: 100%;
     margin: 0 auto;

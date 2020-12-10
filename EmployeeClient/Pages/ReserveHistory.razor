@@ -10,33 +10,34 @@
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Policy = "SecurityLevel2")]
 
-<div class="container">
+<div class="container float-left">
     <div class="row searchFilter">
 
-        <div class="col-6 col-md-4" style="padding:2.5px;">
-            <select @bind="store" class="btn btn-light" style="width:150px;" required>
+        <div class="col row" >
+            <select @bind="store" class="btn btn-light" style="width:150px; margin-right:5px;">
+                <option selected hidden disabled>City..</option>
                 <option>All</option>
                 <option>Horsens </option>
                 <option>Aalborg </option>
                 <option>Frederiksberg</option>
             </select>
-            <div class="col-12 col-md-8" style="padding:2.5px;">
-                <input id="table_filter" type="text" class="form-control" @bind-value="email">
-            </div>
-            <select @bind="deliveryMethod" class="btn btn-light" style="width:150px;" required>
-
+            <select @bind="deliveryMethod" class="btn btn-light" style="width:150px; margin-right:5px;">
+                <option disabled hidden>Status..</option>
                 <option>All</option>
                 <option>Delivered</option>
                 <option>Reserved</option>
             </select>
+            <input id="table_filter" type="text" class="form-control" style="width:250px; margin-right:2px;" placeholder="Customer Email..." @bind-value="email">
+            <button @onclick="ExecuteSearch" class="btn btn-primary" style="margin-top:10px;"><span class="material-icons">search</span></button>
 
-            <button @onclick="ExecuteSearch" class="btn btn-primary"><span class="material-icons">search</span></button>
         </div>
+
+
     </div>
 </div>
 
-<table class="table">
-    <thead>
+<table class="table cartTable">
+    <thead class="cartThead">
         <tr>
             <th>Transaction ID</th>
             <th>Store ID</th>
@@ -49,7 +50,7 @@
             <th>Change status</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="cartTbody">
         @foreach (var transaction in historyToShow)
         {
             if (lastId != transaction.Transactionod)
@@ -87,22 +88,22 @@
                         <td>@transaction.Customername </td>
                         <td>@transaction.Email </td>
                         <td>@transaction.Deliverymethod </td>
-                        @if (transaction.Deliverymethod.Equals("Under preparation"))
-                        {
-                            <td>
-                                <button @onclick="() => ChangeToReady(transaction.Transactionod)">
-                                    <i class="oi oi-bell" style="color:red" />
+                        <td>
+                            @if (transaction.Deliverymethod.Equals("under preparation"))
+                            {
+                                <button class="btn-warning" style="border: none; width:130px;" @onclick="() => ChangeToReady(transaction.Transactionod)">
+                                    <i class="material-icons" style=" padding: 0;">notifications_active</i> Is prepared
                                 </button>
-                            </td>
-                        }
-                        @if (transaction.Deliverymethod.Equals("Ready for pickup"))
-                        {
-                            <td>
-                                <button @onclick="() => ChangeToDelivery(transaction.Transactionod,transaction.Storeid,transaction.ProductId,transaction.Quantity)">
-                                    <i class="oi oi-check" style="color:red" />
+                            }
+
+                            @if (transaction.Deliverymethod.Equals("Ready for pickup"))
+                            {
+                                <button class="btn btn-success" style=" border: none; width:130px;" @onclick="() => ChangeToDelivery(transaction.Transactionod,transaction.Storeid,transaction.ProductId,transaction.Quantity)">
+                                    <i class="material-icons">done_outline</i> Deliverd
                                 </button>
-                            </td>
-                        }
+                            }
+                        </td>
+
 
 
                         </tr>
@@ -118,8 +119,8 @@
         List<EmployeeClient.Models.ReserveHistory> historyToShow = new List<EmployeeClient.Models.ReserveHistory>();
 
         int lastId = 0;
-        string store = "";
-        string deliveryMethod = "";
+        string store = "All";
+        string deliveryMethod = "All";
 
         int storeid = 0;
         string email = "";
@@ -158,7 +159,7 @@
             }
             if (deliveryMethod.Equals("Reserved"))
             {
-                delivery = "U";
+                delivery = "u";
             }
             if (deliveryMethod.Equals("All"))
             {
@@ -180,12 +181,14 @@
         public async Task ChangeToReady(int id)
         {
             await TransactionService.UpdateToReady(id);
+            await ExecuteSearch();
         }
 
         public async Task ChangeToDelivery(int id, int storeid, int productid, int quantity)
         {
             await WarehouseService.UpdateWarehouseQuantity(storeid, productid, quantity);
             await TransactionService.UpdateToDelivered(id);
+            await ExecuteSearch();
         }
 
     }

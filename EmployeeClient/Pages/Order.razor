@@ -10,38 +10,54 @@
 
 @if (!showNext)
 {
-    <label for="storeId">StoreId:</label>
-    <input @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
-    <br>
-    <br>
-    <label for="productId">ProductId:</label>
-    <input @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
-    <br>
-    <br>
-    <label for="quantity">Quantity:</label>
-    <input @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
-    <br>
-    <br>
-    <button @onclick="GetWarehouseProductFromStoresById" type="button">See stock in other stores</button>
-    <button @onclick="NavigateBack">Back</button>
-    @if (!string.IsNullOrWhiteSpace(error))
-    {
-        <div class="alert alert-danger" role="alert">
-            @error
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-9 col-md-7  mx-auto">
+                <div class="card card-addProduct my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Order Product From Manufacturer</h5>
+                        <div class="form-addProduct">
+                            <div class="form-label-group">
+                                <label for="storeId">StoreId:</label>
+                                <input class="form-control" @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
+
+                                <label for="productId">ProductId:</label>
+                                <input class="form-control" @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
+
+                                <label for="quantity">Quantity:</label>
+                                <input class="form-control" @bind-value="warehouseProduct.quantity" type="text" id="quantity" name="quantity">
+
+                            </div>
+
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(error))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @error
+                            </div>
+                        }
+                        <button class="btn btn-success text-uppercase" @onclick="GetWarehouseProductFromStoresById" type="button">See stock in other stores</button>
+                        <button class="btn btn-primary text-uppercase" @onclick="NavigateBack">Back</button>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    }
+    </div>
 }
 else
 {
-    <table class="table">
-        <thead>
+    <table class="table cartTable">
+        <thead class="cartThead">
             <tr>
                 <th>StoreId</th>
                 <th>ProductId</th>
                 <th>Quantity</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="cartTbody">
             @foreach (var product in warehouseProductsFromStore)
             {
                 <tr>
@@ -53,23 +69,39 @@ else
         </tbody>
     </table>
 
-    <label for="storeId">StoreId:</label>
-    <input @bind-value="orderProduct.storeId" type="text" id="storeId" name="storeId">
-    <br>
-    <br>
-    <label for="orderCount">OrderCount:</label>
-    <input @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
-    <br>
-    <br>
-    <button @onclick="OrderProductsFromStore" type="button">Order</button>
-    <button @onclick="NavigateBack">Back</button>
+    <div class="container">
 
-    @if (!string.IsNullOrWhiteSpace(success))
-    {
-        <div class="alert alert-success" role="alert">
-            @success
+        <div class="row">
+            <div class="col-sm-9 col-md-7  mx-auto">
+                <div class="card card-addProduct my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Order Product From Manufacturer</h5>
+                        <div class="form-addProduct">
+                            <div class="form-label-group">
+                                <label for="storeId">StoreId:</label>
+                                <input class="form-control" @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
+
+                                <label for="productId">ProductId:</label>
+                                <input class="form-control" @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
+
+                            </div>
+
+                        </div>
+                        @if (!string.IsNullOrWhiteSpace(error))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @error
+                            </div>
+                        }
+                        <button class="btn btn-success text-uppercase" @onclick="GetWarehouseProductFromStoresById" type="button">See stock in other stores</button>
+                        <button class="btn btn-primary text-uppercase" @onclick="NavigateBack">Back</button>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
-    }
+    </div>
 
 
 }
@@ -106,7 +138,7 @@ else
     }
     private async Task GetWarehouseProductFromStoresById()
     {
-        if (warehouseProduct.storeId != 0 && warehouseProduct.productId != 0 && warehouseProduct.quantity>=0)
+        if (warehouseProduct.storeId != 0 && warehouseProduct.productId != 0 && warehouseProduct.quantity >= 0)
         {
             if (ItemSame())
             {
@@ -121,7 +153,8 @@ else
                 error = "Warehouse product does not exist!";
                 showNext = false;
             }
-        }else if(warehouseProduct.storeId > 0 && warehouseProduct.productId > 0)
+        }
+        else if (warehouseProduct.storeId > 0 && warehouseProduct.productId > 0)
         {
             error = "StoreId and/or ProductId cannot be a negative number!";
             showNext = false;
