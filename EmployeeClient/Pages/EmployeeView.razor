@@ -161,12 +161,12 @@
         StateHasChanged();
     }
 
-    private async void DeleteUser(MouseEventArgs e)
+    private void DeleteUser(MouseEventArgs e)
     {
         message = String.Empty;
         error = String.Empty;
 
-        await UserService.DeleteUserAsync(user.UserID);
+        UserService.DeleteUserAsync(user.UserID);
 
         message = "Account has been deleted";
 
