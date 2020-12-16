@@ -16,12 +16,12 @@
                 <div class="card card-register">
                     <div class="card-body">
                         <h5 class="card-title text-center">Register New Employee</h5>
-                        <form class="form-register">
+                        <div class="form-register">
 
                             <div class="form-label-group">
 
                                 <label><i class="material-icons"> email </i> Email: </label>
-                                <InputText type="email" class="form-control" @bind-Value="newUser.Email" placeholder="Email" required />
+                                <InputText class="form-control" @bind-Value="newUser.Email" placeholder="Email" required />
 
                                 <label><i class="material-icons"> account_box </i> Name:</label>
                                 <InputText class="form-control" @bind-Value="newUser.Name" placeholder="Name" required />
@@ -30,40 +30,54 @@
                                 <InputText class="form-control" @bind-Value="newUser.Address" placeholder="Address" required />
 
                                 <label><i class="material-icons"> perm_phone_msg </i> Phone Number:</label>
-                                <InputText class="form-control" @bind-Value="newUser.Contact" placeholder="Phone Number" required />
+                                <InputText type="number" class="form-control" @bind-Value="newUser.Contact" placeholder="Phone Number" required />
 
-                                <label><i class="material-icons"> security </i> Security Level:</label> <br />
-                                <select class="form-control" @bind="newUser.SecurityLevel" required>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                </select>
-                            </div>
-
-                            <div class="form-label-group">
                                 <label><i class="material-icons"> event_seat </i> Position:</label>
                                 <InputText type="text" class="form-control" @bind-Value="newUser.Position" placeholder="Position" required />
 
-                                <label> <i class="material-icons"> local_convenience_store </i> Store ID:</label>
-                                <select class="form-control" @bind="newUser.StoreID" required>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
-
-                                <label><i class="material-icons"> lock </i> Password:</label>
-                                <InputText class="form-control" type="password" @bind-Value="password" placeholder="Password" required />
-
-                                <label><i class="material-icons"> lock </i> Confirm Password:</label>
-                                <InputText class="form-control" type="password" @bind-Value="confirmPassword" placeholder="Confirm Password" required />
 
                             </div>
 
-                        </form>
+                            <div class="row form-label-group">
+                                <div class="col-md-6">
+                                    <label><i class="material-icons"> security </i> Security Level:</label> <br />
+                                    <select class="form-control" @bind="newUser.SecurityLevel" required>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label> <i class="material-icons"> local_convenience_store </i> Store ID:</label>
+                                    <select class="form-control" @bind="newUser.StoreID" required>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-label-group">
+                                <div class="col-md-6">
+                                    <label><i class="material-icons"> lock </i> Password:</label>
+                                    <InputText class="form-control" type="password" @bind-Value="password" placeholder="Password" required />
+                                </div>
+                                <div class="col-md-6">
+                                    <label><i class="material-icons"> lock </i> Confirm Password:</label>
+                                    <InputText class="form-control" type="password" @bind-Value="confirmPassword" placeholder="Confirm Password" required />
+                                </div>
+                            </div>
+
+                                </div>
                         <div class="form-label-group">
                             <button class="btn btn-outline-success btn-block text-uppercase" type="submit" style="margin-left: 1rem;">Create</button>
                         </div>
+                        @if (!string.IsNullOrWhiteSpace(message))
+                        {
+                            <div class="alert alert-success">
+                                @message
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -76,6 +90,7 @@
 
 @code {
     private User newUser = new User();
+    string message = String.Empty;
 
 
     private string password;
@@ -88,7 +103,7 @@
             newUser.Password = password;
 
             UsersService.AddUserAsync(newUser);
-            NavigationManager.NavigateTo("/Login");
+            message = "Employee added";
         }
     }
 }
