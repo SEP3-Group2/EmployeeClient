@@ -35,12 +35,9 @@ namespace EmployeeClient.Data.ImagesService
 
         public async Task<SaveFile> GetImages(string quantity, int productID)
         {
-            Console.WriteLine("Calling getimages...");
             string url = uri;
             url += $"/?quantity={quantity}&productID={productID}";
-            Console.WriteLine(url);
             var message = await client.GetStringAsync(url);
-            Console.WriteLine($"Got message: {message}");
 
             return JsonSerializer.Deserialize<SaveFile>(message);
         }

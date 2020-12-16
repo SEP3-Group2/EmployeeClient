@@ -197,10 +197,7 @@ else
     private async Task GetImagesFromID(int id)
     {
         imageDataUrls.Clear();
-        Console.WriteLine("Button pressed");
         SaveFile saveFile = await ImageService.GetImages("two", id);
-        Console.WriteLine("STARTING FOREACH");
-
 
         if (saveFile.Files.Count < 2)
         {
@@ -209,10 +206,8 @@ else
             return;
         }
 
-
         foreach (var file in saveFile.Files)
         {
-            Console.WriteLine("FOREACH");
             string contentType = "images/" + file.FileType.Substring(1);
             if (contentType.Equals("images/jpg"))
             {
@@ -221,16 +216,7 @@ else
 
             images[counter] = ($"data:{contentType};base64,{Convert.ToBase64String(file.Data)}");
             counter++;
-
         }
-        foreach (var item in images)
-        {
-            Console.WriteLine(item);
-        }
-
-
-        Console.WriteLine(images.Count);
-        Console.WriteLine(saveFile.Files.Count);
     }
 
 }
