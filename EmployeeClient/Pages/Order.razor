@@ -4,7 +4,6 @@
 @inject IWarehouseProductService WarehouseProductService
 @inject IWPJoinService WPJoinService
 @inject NavigationManager NavigationManager
-<h3>Order Product From Store</h3>
 
 
 
@@ -16,7 +15,7 @@
             <div class="col-sm-9 col-md-7  mx-auto">
                 <div class="card card-addProduct my-5">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Order Product From Manufacturer</h5>
+                        <h5 class="card-title text-center">Order Product From Store</h5>
                         <div class="form-addProduct">
                             <div class="form-label-group">
                                 <label for="storeId">StoreId:</label>
@@ -75,25 +74,25 @@ else
             <div class="col-sm-9 col-md-7  mx-auto">
                 <div class="card card-addProduct my-5">
                     <div class="card-body">
-                        <h5 class="card-title text-center">Order Product From Manufacturer</h5>
+                        <h5 class="card-title text-center">Order Product From Store</h5>
                         <div class="form-addProduct">
                             <div class="form-label-group">
                                 <label for="storeId">StoreId:</label>
-                                <input class="form-control" @bind-value="warehouseProduct.storeId" type="text" id="storeId" name="storeId">
+                                <input class="form-control" @bind-value="orderProduct.storeId" type="text" id="storeId" name="storeId">
 
-                                <label for="productId">ProductId:</label>
-                                <input class="form-control" @bind-value="warehouseProduct.productId" type="text" id="productId" name="productId">
+                                <label for="orderCount">OrderCount:</label>
+                                <input class="form-control" @bind-value="orderProduct.orderCount" type="text" id="orderCount" name="orderCount">
 
                             </div>
 
                         </div>
-                        @if (!string.IsNullOrWhiteSpace(error))
+                        @if (!string.IsNullOrWhiteSpace(success))
                         {
-                            <div class="alert alert-danger" role="alert">
-                                @error
+                            <div class="alert alert-success" role="alert">
+                                @success
                             </div>
                         }
-                        <button class="btn btn-success text-uppercase" @onclick="GetWarehouseProductFromStoresById" type="button">See stock in other stores</button>
+                        <button class="btn btn-success text-uppercase" @onclick="OrderProductsFromStore" type="button">Order</button>
                         <button class="btn btn-primary text-uppercase" @onclick="NavigateBack">Back</button>
                     </div>
                 </div>
@@ -143,9 +142,9 @@ else
             if (ItemSame())
             {
                 warehouseProductsFromStore = new List<WarehouseProduct>();
+                warehouseProductsFromStore = await WarehouseProductService.GetWarehouseProductFromStoresById(warehouseProduct);
                 showNext = true;
                 error = String.Empty;
-                warehouseProductsFromStore = await WarehouseProductService.GetWarehouseProductFromStoresById(warehouseProduct);
 
             }
             else
